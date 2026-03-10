@@ -1,74 +1,188 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="light">
+<html lang="hi" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>सभी कहानियाँ — AntarVasna Pur</title>
-  <meta name="description" content="AntarVasna Pur पर उपलब्ध सभी हिंदी कहानियाँ — श्रेणी, टैग और तारीख के अनुसार फ़िल्टर करें।">
+  <title>All Stories - Antarvasnapur | सभी कहानियाँ</title>
+  <meta name="description" content="Browse all Hindi stories on Antarvasnapur. Filter by category, sort by latest, trending, or most viewed.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://antarvasnapur.in/all-stories.html">
+  <meta property="og:title" content="All Stories - Antarvasnapur">
+  <meta property="og:description" content="Browse all Hindi stories sorted by latest, trending, and most viewed.">
+  <meta property="og:url" content="https://antarvasnapur.in/all-stories.html">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
-<body>
-
-<section class="page-hero">
-  <h1>सभी कहानियाँ</h1>
-  <p>हमारे पूरे संग्रह में से खोजें और पढ़ें</p>
-</section>
-<div class="container">
-  <div class="layout-grid">
-    <main>
-      <div class="filter-bar">
-        <select id="sort-select" class="filter-select">
-          <option value="date">नवीनतम पहले</option>
-          <option value="views">सर्वाधिक पढ़ी गई</option>
-          <option value="rating">सर्वोच्च रेटिंग</option>
-        </select>
-        <select id="cat-filter" class="filter-select">
-          <option value="">सभी श्रेणियाँ</option>
-        </select>
+<body data-page="all-stories">
+  <div id="reading-progress"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+      <nav class="header-nav">
+        <a href="index.html">Home</a>
+        <a href="all-stories.html" class="active">All Stories</a>
+        <a href="category.html">Categories</a>
+        <a href="tag.html">Tags</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="header-search-input" placeholder="Search stories..." autocomplete="off">
       </div>
-      <div class="stories-grid" id="all-stories-list"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
-      <div class="pagination" id="all-pagination"></div>
-    </main>
-    <aside class="sidebar">
-      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"></ul></div>
-      <div class="sidebar-widget"><h3 class="widget-title">🏷️ टैग</h3><div class="tags-cloud" id="sidebar-tags"></div></div>
-      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी</button></div>
-    </aside>
+      <div class="header-actions">
+        <button class="btn-icon" data-dark-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+          <svg class="dm-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="dm-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg>
+        </button>
+        <button class="btn-icon hamburger" id="mobile-menu-open" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <span class="site-logo">Antarvas<span>napur</span></span>
+        <button class="mobile-menu-close" id="mobile-menu-close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="all-stories.html">📚 All Stories</a>
+        <a href="category.html">🗂️ Categories</a>
+        <a href="tag.html">🏷️ Tags</a>
+        <a href="search.html">🔍 Search</a>
+        <a href="about.html">ℹ️ About</a>
+      </nav>
+    </div>
   </div>
-</div>
 
-<script src="/js/main.js"></script>
-<script src="/js/layout.js"></script>
-<script src="/js/pagination.js"></script>
-<script src="/js/categories.js"></script>
-<script src="/js/tags.js"></script>
-<script>
-let allStories = [];
-async function initAllStories() {
-  const data = await window.APP.loadStories();
-  allStories = [...data.stories];
-  const catFilter = document.getElementById('cat-filter');
-  data.categories.forEach(c => {
-    const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name; catFilter.appendChild(opt);
-  });
-  renderStories();
-}
-function getSorted() {
-  const sort = document.getElementById('sort-select').value;
-  const cat = document.getElementById('cat-filter').value;
-  let list = cat ? allStories.filter(s=>(s.categories||[]).includes(cat)) : [...allStories];
-  if (sort==='date') list.sort((a,b)=>new Date(b.date)-new Date(a.date));
-  else if (sort==='views') list.sort((a,b)=>b.views-a.views);
-  else if (sort==='rating') list.sort((a,b)=>b.rating-a.rating);
-  return list;
-}
-function renderStories() { createPagination(getSorted(), 10, window.APP.storyCardHTML, 'all-stories-list', 'all-pagination'); }
-document.addEventListener('DOMContentLoaded', () => {
-  initAllStories();
-  document.getElementById('sort-select').addEventListener('change', renderStories);
-  document.getElementById('cat-filter').addEventListener('change', renderStories);
-});
-</script>
+  <div class="page-banner">
+    <h1>All Stories</h1>
+    <p>Browse our complete collection of Hindi stories</p>
+  </div>
+
+  <main class="container" style="padding-bottom:60px">
+    <!-- Sort Controls -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px">
+      <span style="font-size:0.85rem;color:var(--text-muted);font-weight:600">Sort by:</span>
+      <button class="cat-filter-btn active" data-sort="latest">Latest</button>
+      <button class="cat-filter-btn" data-sort="trending">Trending</button>
+      <button class="cat-filter-btn" data-sort="views">Most Viewed</button>
+      <button class="cat-filter-btn" data-sort="rating">Top Rated</button>
+    </div>
+    <!-- Category filter (auto-generated) -->
+    <div class="categories-filter" id="cat-filter-bar"></div>
+    <!-- Stories grid -->
+    <div id="all-stories-grid" class="stories-grid"></div>
+    <div id="all-stories-pagination" class="pagination" style="margin-top:32px"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+        <p>सर्वश्रेष्ठ हिंदी कहानियाँ पढ़ें।</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="all-stories.html">All Stories</a></li>
+          <li><a href="category.html">Categories</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Antarvasnapur. All rights reserved.</p>
+    </div>
+  </footer>
+  <button id="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script src="js/main.js"></script>
+  <script src="js/pagination.js"></script>
+  <script src="js/darkmode.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/analytics.js"></script>
+  <script>
+    let allStories = [];
+    let activeSort = 'latest';
+    let activeCategory = '';
+    let pager;
+
+    function getSorted(stories, sort) {
+      const s = [...stories];
+      if (sort === 'trending') return s.sort((a, b) => b.views - a.views);
+      if (sort === 'views') return s.sort((a, b) => b.views - a.views);
+      if (sort === 'rating') return s.sort((a, b) => b.rating - a.rating);
+      return s.sort((a, b) => new Date(b.date) - new Date(a.date)); // latest
+    }
+
+    function applyFilters() {
+      let filtered = allStories;
+      if (activeCategory) filtered = filtered.filter(s => (s.categories || []).includes(activeCategory));
+      const sorted = getSorted(filtered, activeSort);
+      pager.setItems(sorted);
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      allStories = await window.SITE.loadStories();
+      const cats = window.SITE.extractCategories(allStories);
+      const filterBar = document.getElementById('cat-filter-bar');
+      if (filterBar) {
+        filterBar.innerHTML = `<button class="cat-filter-btn active" data-cat="">All</button>` +
+          cats.map(([c]) => `<button class="cat-filter-btn" data-cat="${c}">${c}</button>`).join('');
+        filterBar.querySelectorAll('[data-cat]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBar.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.cat;
+            applyFilters();
+          });
+        });
+      }
+
+      pager = new Paginator({
+        containerId: 'all-stories-grid',
+        paginationId: 'all-stories-pagination',
+        items: [],
+        perPage: 12,
+        renderFn: s => window.SITE.buildStoryCard(s, '')
+      });
+      applyFilters();
+
+      document.querySelectorAll('[data-sort]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeSort = btn.dataset.sort;
+          applyFilters();
+        });
+      });
+
+      // Handle URL sort param
+      const params = new URLSearchParams(window.location.search);
+      const urlSort = params.get('sort');
+      if (urlSort) {
+        const sortBtn = document.querySelector(`[data-sort="${urlSort}"]`);
+        if (sortBtn) sortBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>

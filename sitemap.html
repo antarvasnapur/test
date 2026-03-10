@@ -1,62 +1,122 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>साइटमैप — AntarVasna Pur</title>
-  <meta name="description" content="AntarVasna Pur का पूरा साइटमैप — सभी पेज और कहानियाँ">
+  <title>Sitemap - Antarvasnapur</title>
+  <meta name="description" content="Complete sitemap of Antarvasnapur - browse all pages and stories.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://antarvasnapur.in/sitemap.html">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
 <body>
+  <div id="reading-progress"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+      <nav class="header-nav">
+        <a href="index.html">Home</a>
+        <a href="all-stories.html">All Stories</a>
+        <a href="category.html">Categories</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-icon" data-dark-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+          <svg class="dm-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
-<section class="page-hero">
-  <h1>साइटमैप</h1>
-  <p>AntarVasna Pur के सभी पेज और कहानियाँ</p>
-</section>
-<div class="container" style="padding-top:40px;padding-bottom:60px;">
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px;">
-    <div class="sidebar-widget">
-      <h3 class="widget-title">📄 मुख्य पेज</h3>
-      <ul class="cat-list">
-        <li><a href="/">होम</a></li>
-        <li><a href="/all-stories.html">सभी कहानियाँ</a></li>
-        <li><a href="/search.html">खोजें</a></li>
-        <li><a href="/about.html">हमारे बारे में</a></li>
-        <li><a href="/contact.html">संपर्क</a></li>
-        <li><a href="/sitemap.html">साइटमैप</a></li>
-      </ul>
-    </div>
-    <div class="sidebar-widget">
-      <h3 class="widget-title">📂 श्रेणियाँ</h3>
-      <ul class="cat-list" id="sitemap-cats"><div class="loading" style="padding:10px"><div class="spinner"></div></div></ul>
-    </div>
-    <div class="sidebar-widget">
-      <h3 class="widget-title">🏷️ टैग</h3>
-      <div class="tags-cloud" id="sitemap-tags"></div>
-    </div>
-  </div>
-  <div style="margin-top:40px;">
-    <div class="section-header"><h2 class="section-title">📚 सभी कहानियाँ</h2></div>
-    <div style="columns:2 320px;column-gap:24px;margin-top:16px;" id="sitemap-stories">
-      <div class="loading"><div class="spinner"></div></div>
-    </div>
-  </div>
-</div>
+  <div class="container" style="padding:40px 20px 60px">
+    <nav class="breadcrumb" style="margin-bottom:24px">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Sitemap</span>
+    </nav>
+    <h1 style="font-family:var(--font-display);font-size:2rem;margin-bottom:8px">Sitemap</h1>
+    <p style="color:var(--text-muted);margin-bottom:40px">Complete index of all pages on Antarvasnapur</p>
 
-<script src="/js/main.js"></script>
-<script src="/js/layout.js"></script>
-<script>
-async function buildSitemap() {
-  const data = await window.APP.loadStories();
-  document.getElementById('sitemap-cats').innerHTML = data.categories.map(c =>
-    `<li><a href="/category.html?cat=${c.id}">${c.name} <span class="count">${c.count}</span></a></li>`).join('');
-  document.getElementById('sitemap-tags').innerHTML = data.tags.map(t =>
-    `<a href="/tag.html?tag=${t}">#${t}</a>`).join('');
-  document.getElementById('sitemap-stories').innerHTML = data.stories.map(s =>
-    `<div style="break-inside:avoid;margin-bottom:8px;"><a href="/stories/${s.slug}.html" style="color:var(--text-muted);font-size:.88rem;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="color:var(--accent)">›</span> ${s.title}</a></div>`).join('');
-}
-document.addEventListener('DOMContentLoaded', buildSitemap);
-</script>
+    <!-- Main Pages -->
+    <div class="sitemap-section">
+      <h2>Main Pages</h2>
+      <div class="sitemap-links">
+        <a href="index.html">Home</a>
+        <a href="all-stories.html">All Stories</a>
+        <a href="category.html">All Categories</a>
+        <a href="tag.html">All Tags</a>
+        <a href="search.html">Search Stories</a>
+        <a href="sitemap.html">Sitemap</a>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="sitemap-section">
+      <h2>Categories</h2>
+      <div class="sitemap-links" id="sitemap-categories">
+        <a href="category.html?c=Romantic+Stories">Romantic Stories</a>
+        <a href="category.html?c=Desi+Stories">Desi Stories</a>
+        <a href="category.html?c=Bhabhi+Stories">Bhabhi Stories</a>
+        <a href="category.html?c=Village+Stories">Village Stories</a>
+        <a href="category.html?c=College+Stories">College Stories</a>
+      </div>
+    </div>
+
+    <!-- Stories (dynamically rendered) -->
+    <div class="sitemap-section">
+      <h2>All Stories</h2>
+      <div class="sitemap-links" id="sitemap-stories">
+        <span style="color:var(--text-light);font-size:0.85rem">Loading stories...</span>
+      </div>
+    </div>
+
+    <!-- Legal Pages -->
+    <div class="sitemap-section">
+      <h2>Legal & Info Pages</h2>
+      <div class="sitemap-links">
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="terms.html">Terms and Conditions</a>
+        <a href="dmca.html">DMCA Policy</a>
+      </div>
+    </div>
+
+    <!-- XML Sitemap link -->
+    <p style="margin-top:32px;font-size:0.875rem;color:var(--text-muted)">
+      For search engines: <a href="sitemap.xml" style="color:var(--primary)">sitemap.xml</a>
+    </p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+        <p>सर्वश्रेष्ठ हिंदी कहानियाँ पढ़ें।</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Antarvasnapur. All rights reserved.</p>
+    </div>
+  </footer>
+  <button id="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+  <script src="js/main.js"></script>
+  <script src="js/darkmode.js"></script>
+  <script src="js/progress.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const stories = await window.SITE.loadStories();
+      const el = document.getElementById('sitemap-stories');
+      if (el && stories.length) {
+        el.innerHTML = stories.map(s =>
+          `<a href="stories/${s.slug}.html">${s.title}</a>`
+        ).join('');
+      }
+    });
+  </script>
 </body>
 </html>

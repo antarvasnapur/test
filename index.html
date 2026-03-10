@@ -1,116 +1,242 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="light">
+<html lang="hi" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>AntarVasna Pur — हिंदी कहानियाँ</title>
-  <meta name="description" content="अंतरवासना पुर — हिंदी की सर्वश्रेष्ठ कहानियों का संग्रह। Desi, Romance, Village, Family और अनेक श्रेणियों में हजारों कहानियाँ।">
-  <meta name="keywords" content="hindi kahani, antarvasna, desi kahani, hindi story, hindi romance">
+  <title>Antarvasnapur - Hindi Stories | हिंदी कहानियाँ</title>
+  <meta name="description" content="Read the best Hindi stories online. Romantic, Desi, Village, Bhabhi, and College stories in Hindi. हिंदी कहानियाँ पढ़ें।">
+  <meta name="keywords" content="hindi stories, hindi kahani, desi kahani, romantic kahani, bhabhi stories, गाँव की कहानियाँ">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://antarvasnapur.in/">
-  <meta property="og:title" content="AntarVasna Pur — हिंदी कहानियाँ">
-  <meta property="og:description" content="हिंदी की सर्वश्रेष्ठ कहानियों का संग्रह">
-  <meta property="og:url" content="https://antarvasnapur.in/">
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="AntarVasna Pur">
-  <meta name="twitter:card" content="summary">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"AntarVasna Pur","url":"https://antarvasnapur.in","potentialAction":{"@type":"SearchAction","target":"https://antarvasnapur.in/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+  <meta property="og:title" content="Antarvasnapur - Best Hindi Stories Online">
+  <meta property="og:description" content="Read the best Hindi stories - Romantic, Desi, Village, Bhabhi and College stories.">
+  <meta property="og:url" content="https://antarvasnapur.in/">
+  <meta property="og:site_name" content="Antarvasnapur">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Antarvasnapur - Hindi Stories">
+  <meta name="twitter:description" content="Best Hindi stories online - पढ़िए बेहतरीन हिंदी कहानियाँ">
+  <!-- Schema.org -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Antarvasnapur","url":"https://antarvasnapur.in","description":"Best Hindi Stories Online","potentialAction":{"@type":"SearchAction","target":"https://antarvasnapur.in/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
 </head>
-<body>
+<body data-page="home">
+  <div id="reading-progress"></div>
 
-<section class="hero-v2">
-  <div class="hero-top">
-    <div class="hero-badge">✦ हज़ारों कहानियाँ &nbsp;·&nbsp; रोज़ अपडेट</div>
-    <h1>अंतरवासना <em>पुर</em></h1>
-    <p class="hero-sub">हिंदी की सर्वश्रेष्ठ कहानियाँ — देसी, रोमांस, परिवार और बहुत कुछ</p>
-    <div class="hero-search-outer">
-      <form class="hero-search-box" id="hero-form" role="search">
-        <input type="search" id="hero-search" placeholder="कहानी खोजें... जैसे: देसी, रोमांस" autocomplete="off">
-        <button type="submit"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> खोजें</button>
-      </form>
-      <div class="hero-chips">
-        <span class="hero-chips-label">जल्दी खोजें:</span>
-        <a class="hero-chip" href="/category.html?cat=desi">देसी</a>
-        <a class="hero-chip" href="/category.html?cat=romance">रोमांस</a>
-        <a class="hero-chip" href="/category.html?cat=village">गाँव</a>
-        <a class="hero-chip" href="/category.html?cat=family">परिवार</a>
-        <a class="hero-chip" href="/category.html?cat=college">कॉलेज</a>
-        <a class="hero-chip" href="/category.html?cat=festival">त्योहार</a>
+  <!-- Age Notice -->
+  <div class="notice-bar">
+    ⚠️ This website contains content for adults (18+). By continuing, you confirm you are 18+.
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+      <nav class="header-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="all-stories.html">All Stories</a>
+        <a href="category.html">Categories</a>
+        <a href="tag.html">Tags</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="header-search-input" placeholder="Search stories..." autocomplete="off">
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" data-dark-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+          <svg class="dm-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="dm-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="btn-icon hamburger" id="mobile-menu-open" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
     </div>
-  </div>
-  <div class="hero-stats">
-    <div class="hero-stats-inner">
-      <div class="stat-item"><div class="stat-icon">📚</div><div><div class="stat-val">1000+</div><div class="stat-lbl">कहानियाँ</div></div></div>
-      <div class="stat-item"><div class="stat-icon">📂</div><div><div class="stat-val">17</div><div class="stat-lbl">श्रेणियाँ</div></div></div>
-      <div class="stat-item"><div class="stat-icon">👁</div><div><div class="stat-val">50L+</div><div class="stat-lbl">मासिक पाठक</div></div></div>
-      <div class="stat-item"><div class="stat-icon">🔥</div><div><div class="stat-val">रोज़ नई</div><div class="stat-lbl">कहानियाँ जुड़ती हैं</div></div></div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <span class="site-logo">Antarvas<span>napur</span></span>
+        <button class="mobile-menu-close" id="mobile-menu-close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="all-stories.html">📚 All Stories</a>
+        <a href="category.html">🗂️ Categories</a>
+        <a href="tag.html">🏷️ Tags</a>
+        <a href="search.html">🔍 Search</a>
+        <a href="about.html">ℹ️ About</a>
+        <a href="contact.html">✉️ Contact</a>
+      </nav>
     </div>
   </div>
-</section>
 
-<div class="container">
-  <div class="layout-grid">
-    <main>
-      <section class="mb-8">
-        <div class="section-header"><h2 class="section-title">नवीनतम कहानियाँ</h2><a class="see-all" href="/all-stories.html">सभी देखें</a></div>
-        <div class="stories-grid" id="latest-stories"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
-        <div class="pagination" id="latest-pagination"></div>
-      </section>
-      <section class="mb-8" style="margin-top:48px;">
-        <div class="section-header"><h2 class="section-title">🔥 ट्रेंडिंग कहानियाँ</h2></div>
-        <div class="trending-list" id="trending-list"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
-      </section>
-      <div id="category-sections"><div class="loading"><div class="spinner"></div>श्रेणियाँ लोड हो रही हैं...</div></div>
-    </main>
-    <aside class="sidebar">
-      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी पढ़ें</button></div>
-      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></ul></div>
-      <div class="sidebar-widget"><h3 class="widget-title">👁 सर्वाधिक पढ़ी गई</h3><div id="most-viewed-list"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></div></div>
-      <div class="sidebar-widget"><h3 class="widget-title">🏷️ लोकप्रिय टैग</h3><div class="tags-cloud" id="sidebar-tags"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></div></div>
-    </aside>
-  </div>
-</div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">हिंदी कहानियों का संसार</h1>
+      <p class="hero-subtitle">Read the best Hindi stories — romantic, desi, village, bhabhi, and college tales</p>
+      <form class="hero-search" id="hero-search-form" role="search">
+        <input type="search" placeholder="Search stories in Hindi or English..." aria-label="Search stories">
+        <button type="submit">Search</button>
+      </form>
+      <div class="hero-stats">
+        <div class="hero-stat" id="stories-count"><strong>1000+</strong> Stories</div>
+        <div class="hero-stat"><strong>5</strong> Categories</div>
+        <div class="hero-stat"><strong>Daily</strong> Updates</div>
+      </div>
+    </div>
+  </section>
 
-<script src="/js/main.js"></script>
-<script src="/js/layout.js"></script>
-<script src="/js/pagination.js"></script>
-<script src="/js/trending.js"></script>
-<script src="/js/categories.js"></script>
-<script src="/js/tags.js"></script>
-<script>
-document.getElementById('hero-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const q = document.getElementById('hero-search').value.trim();
-  if (q) window.location.href = '/search.html?q=' + encodeURIComponent(q);
-});
-async function buildLatest() {
-  const data = await window.APP.loadStories();
-  const sorted = [...data.stories].sort((a,b) => new Date(b.date)-new Date(a.date));
-  createPagination(sorted, 10, window.APP.storyCardHTML, 'latest-stories', 'latest-pagination');
-}
-async function buildCategorySections() {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById('category-sections');
-  if (!el) return;
-  const showCats = ['desi','romance','family','village'];
-  let html = '';
-  for (const catId of showCats) {
-    const catInfo = data.categories.find(c=>c.id===catId);
-    if (!catInfo) continue;
-    const stories = data.stories.filter(s=>(s.categories||[]).includes(catId)).slice(0,5);
-    if (!stories.length) continue;
-    html += `<section class="mb-8"><div class="section-header"><h2 class="section-title">${catInfo.name} कहानियाँ</h2><a class="see-all" href="/category.html?cat=${catId}">सभी देखें</a></div><div class="cards-grid">${stories.map(s=>window.APP.smallCardHTML(s)).join('')}</div></section>`;
-  }
-  el.innerHTML = html;
-}
-document.addEventListener('DOMContentLoaded', () => {
-  // Prevent browser from restoring scroll position on homepage
-  if (history.scrollRestoration) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
-  buildLatest();
-  buildCategorySections();
-});
-</script>
+  <!-- Main Content -->
+  <main>
+    <!-- Latest Stories Section -->
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;margin-top:48px" class="content-layout">
+        <!-- Main Column -->
+        <div>
+          <div class="section-header">
+            <h2 class="section-title">Latest Stories</h2>
+            <a href="all-stories.html" class="view-all">View All →</a>
+          </div>
+          <div id="latest-stories" class="stories-grid">
+            <!-- Rendered by JS -->
+          </div>
+          <div id="latest-pagination" class="pagination" style="margin-top:32px"></div>
+        </div>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="widget">
+            <button class="random-story-btn" data-random-story>
+              🎲 Random Story
+            </button>
+          </div>
+          <div class="widget">
+            <h3 class="widget-title">🔥 Trending Stories</h3>
+            <div id="sidebar-trending"></div>
+          </div>
+          <div class="widget">
+            <h3 class="widget-title">🏷️ Popular Tags</h3>
+            <div id="sidebar-tags"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Trending Section -->
+    <div class="container">
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">🔥 Trending Stories</h2>
+          <a href="all-stories.html?sort=trending" class="view-all">View All →</a>
+        </div>
+        <div id="trending-stories"></div>
+      </section>
+    </div>
+
+    <!-- Auto Category Sections -->
+    <div class="container" id="homepage-categories"></div>
+
+    <!-- Most Viewed Section -->
+    <div class="container">
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">👁️ Most Viewed</h2>
+        </div>
+        <div id="most-viewed"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
+        <p>सर्वश्रेष्ठ हिंदी कहानियाँ पढ़ें। रोमांटिक, देसी, गाँव, भाभी और कॉलेज कहानियों का अनोखा संग्रह।</p>
+      </div>
+      <div class="footer-col">
+        <h4>Stories</h4>
+        <ul>
+          <li><a href="all-stories.html">All Stories</a></li>
+          <li><a href="category.html">Categories</a></li>
+          <li><a href="tag.html">Tags</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="category.html?c=Romantic+Stories">Romantic Stories</a></li>
+          <li><a href="category.html?c=Desi+Stories">Desi Stories</a></li>
+          <li><a href="category.html?c=Bhabhi+Stories">Bhabhi Stories</a></li>
+          <li><a href="category.html?c=Village+Stories">Village Stories</a></li>
+          <li><a href="category.html?c=College+Stories">College Stories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Antarvasnapur. All rights reserved. For adults 18+ only.</p>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="dmca.html">DMCA</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script src="js/main.js"></script>
+  <script src="js/pagination.js"></script>
+  <script src="js/darkmode.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/random.js"></script>
+  <script src="js/trending.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/analytics.js"></script>
+  <script>
+    // Load and render latest stories
+    document.addEventListener('DOMContentLoaded', async () => {
+      const stories = await window.SITE.loadStories();
+      // Update hero count
+      const countEl = document.getElementById('stories-count');
+      if (countEl) countEl.innerHTML = `<strong>${stories.length}+</strong> Stories`;
+
+      const latest = window.SITE.getLatest(stories);
+      const pager = new Paginator({
+        containerId: 'latest-stories',
+        paginationId: 'latest-pagination',
+        items: latest,
+        perPage: 10,
+        renderFn: s => window.SITE.buildStoryCard(s, '')
+      });
+      pager.render();
+    });
+  </script>
 </body>
 </html>

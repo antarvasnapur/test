@@ -1,142 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <!-- Main Pages -->
   <url>
     <loc>https://antarvasnapur.in/</loc>
-    <lastmod>2024-04-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <lastmod>2024-03-10</lastmod>
   </url>
   <url>
     <loc>https://antarvasnapur.in/all-stories.html</loc>
-    <lastmod>2024-04-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <lastmod>2024-03-10</lastmod>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/category.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2024-03-10</lastmod>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/tag.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2024-03-10</lastmod>
   </url>
   <url>
     <loc>https://antarvasnapur.in/search.html</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/sitemap.html</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <!-- Category Pages -->
   <url>
-    <loc>https://antarvasnapur.in/category.html?cat=desi</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=village</loc>
-    <lastmod>2024-04-20</lastmod>
+    <loc>https://antarvasnapur.in/category.html?c=Romantic+Stories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/category.html?cat=romance</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=family</loc>
-    <lastmod>2024-04-20</lastmod>
+    <loc>https://antarvasnapur.in/category.html?c=Desi+Stories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/category.html?cat=urban</loc>
-    <lastmod>2024-04-20</lastmod>
+    <loc>https://antarvasnapur.in/category.html?c=Bhabhi+Stories</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/category.html?cat=college</loc>
-    <lastmod>2024-04-20</lastmod>
+    <loc>https://antarvasnapur.in/category.html?c=Village+Stories</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/category.html?cat=festival</loc>
-    <lastmod>2024-04-20</lastmod>
+    <loc>https://antarvasnapur.in/category.html?c=College+Stories</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=travel</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=youth</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=office</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=marriage</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=modern</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=rajasthani</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=adventure</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://antarvasnapur.in/category.html?cat=drama</loc>
-    <lastmod>2024-04-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
 
-  <!-- Story Pages (sample - add all stories here) -->
+  <!-- Sample Stories -->
   <url>
-    <loc>https://antarvasnapur.in/stories/gaon-ki-raat.html</loc>
+    <loc>https://antarvasnapur.in/stories/desi-bhabhi-ki-prem-kahani.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
     <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/stories/dehati-prem.html</loc>
-    <lastmod>2024-02-01</lastmod>
+    <loc>https://antarvasnapur.in/stories/college-ki-yaadein.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <lastmod>2024-01-20</lastmod>
   </url>
   <url>
-    <loc>https://antarvasnapur.in/stories/holi-ki-rangin-raat.html</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://antarvasnapur.in/stories/pehli-mohabbat.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <lastmod>2024-03-10</lastmod>
+  </url>
+
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://antarvasnapur.in/about.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/contact.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/privacy-policy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/disclaimer.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/terms.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/dmca.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://antarvasnapur.in/sitemap.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>
