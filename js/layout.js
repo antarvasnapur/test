@@ -57,70 +57,9 @@
   ───────────────────────────────────────── */
   const FOOTER_HTML = `
 <footer class="footer-v2">
-  <div class="footer-main">
-
-    <div class="footer-brand">
-      <a class="logo" href="/"><span class="logo-main">अंतरवासना</span><span class="logo-accent">पुर</span></a>
-      <p>हिंदी कहानियों का सबसे बड़ा संग्रह। हर रोज़ नई कहानियाँ, हर श्रेणी में। पढ़ें, सेव करें और अपने पसंदीदा किस्से खोजें।</p>
-      <div class="footer-badge-links">
-        <a class="footer-badge-link" href="/sitemap.html">🗺 साइटमैप</a>
-        <a class="footer-badge-link" href="/search.html">🔍 खोजें</a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h4>श्रेणियाँ</h4>
-      <ul>
-        <li><a href="/category.html?cat=desi">देसी</a></li>
-        <li><a href="/category.html?cat=romance">रोमांस</a></li>
-        <li><a href="/category.html?cat=family">परिवार</a></li>
-        <li><a href="/category.html?cat=village">गाँव</a></li>
-        <li><a href="/category.html?cat=college">कॉलेज</a></li>
-        <li><a href="/category.html?cat=festival">त्योहार</a></li>
-        <li><a href="/category.html?cat=office">ऑफिस</a></li>
-        <li><a href="/all-stories.html">सभी देखें →</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>पेज</h4>
-      <ul>
-        <li><a href="/all-stories.html">सभी कहानियाँ</a></li>
-        <li><a href="/search.html">खोजें</a></li>
-        <li><a href="/sitemap.html">साइटमैप</a></li>
-        <li><a href="/about.html">हमारे बारे में</a></li>
-        <li><a href="/contact.html">संपर्क करें</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>कानूनी</h4>
-      <ul>
-        <li><a href="/privacy-policy.html">गोपनीयता नीति</a></li>
-        <li><a href="/terms.html">उपयोग की शर्तें</a></li>
-        <li><a href="/disclaimer.html">अस्वीकरण</a></li>
-        <li><a href="/dmca.html">DMCA</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>और श्रेणियाँ</h4>
-      <ul>
-        <li><a href="/category.html?cat=adventure">एडवेंचर</a></li>
-        <li><a href="/category.html?cat=rajasthani">राजस्थानी</a></li>
-        <li><a href="/category.html?cat=travel">यात्रा</a></li>
-        <li><a href="/category.html?cat=marriage">विवाह</a></li>
-        <li><a href="/category.html?cat=modern">मॉडर्न</a></li>
-        <li><a href="/category.html?cat=drama">नाटक</a></li>
-        <li><a href="/category.html?cat=youth">युवा</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom-bar">
+  <div class="footer-bottom-bar footer-only-bar">
     <div class="footer-bottom-inner">
-      <span>© 2026 AntarVasna Pur</span>
+      <span class="footer-copy">© 2026 AntarVasna Pur</span>
       <div class="footer-legal">
         <a href="/">Home</a>
         <a href="/all-stories.html">Stories</a>
