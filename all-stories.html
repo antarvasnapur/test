@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>सभी कहानियाँ — AntarVasna Pur</title>
+  <meta name="description" content="AntarVasna Pur पर उपलब्ध सभी हिंदी कहानियाँ — श्रेणी, टैग और तारीख के अनुसार फ़िल्टर करें।">
+  <link rel="canonical" href="https://antarvasnapur.in/all-stories.html">
+</head>
+<body>
+
+<section class="page-hero">
+  <h1>सभी कहानियाँ</h1>
+  <p>हमारे पूरे संग्रह में से खोजें और पढ़ें</p>
+</section>
+<div class="container">
+  <div class="layout-grid">
+    <main>
+      <div class="filter-bar">
+        <select id="sort-select" class="filter-select">
+          <option value="date">नवीनतम पहले</option>
+          <option value="views">सर्वाधिक पढ़ी गई</option>
+          <option value="rating">सर्वोच्च रेटिंग</option>
+        </select>
+        <select id="cat-filter" class="filter-select">
+          <option value="">सभी श्रेणियाँ</option>
+        </select>
+      </div>
+      <div class="stories-grid" id="all-stories-list"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
+      <div class="pagination" id="all-pagination"></div>
+    </main>
+    <aside class="sidebar">
+      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"></ul></div>
+      <div class="sidebar-widget"><h3 class="widget-title">🏷️ टैग</h3><div class="tags-cloud" id="sidebar-tags"></div></div>
+      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी</button></div>
+    </aside>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/categories.js"></script>
+<script src="/js/tags.js"></script>
+<script>
+let allStories = [];
+async function initAllStories() {
+  const data = await window.APP.loadStories();
+  allStories = [...data.stories];
+  const catFilter = document.getElementById('cat-filter');
+  data.categories.forEach(c => {
+    const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name; catFilter.appendChild(opt);
+  });
+  renderStories();
+}
+function getSorted() {
+  const sort = document.getElementById('sort-select').value;
+  const cat = document.getElementById('cat-filter').value;
+  let list = cat ? allStories.filter(s=>(s.categories||[]).includes(cat)) : [...allStories];
+  if (sort==='date') list.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  else if (sort==='views') list.sort((a,b)=>b.views-a.views);
+  else if (sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  return list;
+}
+function renderStories() { createPagination(getSorted(), 10, window.APP.storyCardHTML, 'all-stories-list', 'all-pagination'); }
+document.addEventListener('DOMContentLoaded', () => {
+  initAllStories();
+  document.getElementById('sort-select').addEventListener('change', renderStories);
+  document.getElementById('cat-filter').addEventListener('change', renderStories);
+});
+</script>
+</body>
+</html>

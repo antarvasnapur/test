@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>खोज — AntarVasna Pur</title>
+  <meta name="description" content="AntarVasna Pur पर कहानियाँ खोजें">
+  <meta name="robots" content="noindex, follow">
+</head>
+<body>
+
+<section class="hero-v2">
+  <div class="hero-top" style="padding:40px 20px 56px;">
+    <h1 style="font-family:var(--font-heading);font-size:clamp(1.6rem,4vw,2.4rem);color:#fff;margin-bottom:10px;">कहानी खोजें</h1>
+    <p class="hero-sub" style="margin-bottom:24px;">शीर्षक, टैग, या श्रेणी से खोजें</p>
+    <div class="hero-search-outer">
+      <form class="hero-search-box" id="main-search-form">
+        <input type="search" id="search-input" placeholder="खोज शब्द दर्ज करें...">
+        <button type="submit"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> खोजें</button>
+      </form>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="layout-grid">
+    <main>
+      <div class="search-results-header" style="padding:20px 0 0;">
+        <h2 id="results-heading" style="display:none;font-family:var(--font-heading);font-size:1.3rem;">
+          "<span id="search-query"></span>" के लिए <span class="text-accent" id="result-count">0</span> परिणाम
+        </h2>
+      </div>
+      <div class="stories-grid" id="search-results">
+        <p class="text-muted" style="padding:60px 0;text-align:center;font-size:1.05rem;">🔍 ऊपर कुछ खोजें...</p>
+      </div>
+      <div class="pagination" id="search-pagination"></div>
+    </main>
+    <aside class="sidebar">
+      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"></ul></div>
+      <div class="sidebar-widget"><h3 class="widget-title">🏷️ लोकप्रिय टैग</h3><div class="tags-cloud" id="sidebar-tags"></div></div>
+      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी</button></div>
+    </aside>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/categories.js"></script>
+<script src="/js/tags.js"></script>
+<script src="/js/search.js"></script>
+<script>
+document.getElementById('main-search-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = document.getElementById('search-input').value.trim();
+  if (q) window.location.href = '/search.html?q=' + encodeURIComponent(q);
+});
+const q = new URLSearchParams(window.location.search).get('q');
+if (q) document.getElementById('results-heading').style.display = 'block';
+</script>
+</body>
+</html>

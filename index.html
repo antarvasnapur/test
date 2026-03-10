@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>AntarVasna Pur — हिंदी कहानियाँ</title>
+  <meta name="description" content="अंतरवासना पुर — हिंदी की सर्वश्रेष्ठ कहानियों का संग्रह। Desi, Romance, Village, Family और अनेक श्रेणियों में हजारों कहानियाँ।">
+  <meta name="keywords" content="hindi kahani, antarvasna, desi kahani, hindi story, hindi romance">
+  <link rel="canonical" href="https://antarvasnapur.in/">
+  <meta property="og:title" content="AntarVasna Pur — हिंदी कहानियाँ">
+  <meta property="og:description" content="हिंदी की सर्वश्रेष्ठ कहानियों का संग्रह">
+  <meta property="og:url" content="https://antarvasnapur.in/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AntarVasna Pur">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"AntarVasna Pur","url":"https://antarvasnapur.in","potentialAction":{"@type":"SearchAction","target":"https://antarvasnapur.in/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+</head>
+<body>
+
+<section class="hero-v2">
+  <div class="hero-top">
+    <div class="hero-badge">✦ हज़ारों कहानियाँ &nbsp;·&nbsp; रोज़ अपडेट</div>
+    <h1>अंतरवासना <em>पुर</em></h1>
+    <p class="hero-sub">हिंदी की सर्वश्रेष्ठ कहानियाँ — देसी, रोमांस, परिवार और बहुत कुछ</p>
+    <div class="hero-search-outer">
+      <form class="hero-search-box" id="hero-form" role="search">
+        <input type="search" id="hero-search" placeholder="कहानी खोजें... जैसे: देसी, रोमांस" autocomplete="off">
+        <button type="submit"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> खोजें</button>
+      </form>
+      <div class="hero-chips">
+        <span class="hero-chips-label">जल्दी खोजें:</span>
+        <a class="hero-chip" href="/category.html?cat=desi">देसी</a>
+        <a class="hero-chip" href="/category.html?cat=romance">रोमांस</a>
+        <a class="hero-chip" href="/category.html?cat=village">गाँव</a>
+        <a class="hero-chip" href="/category.html?cat=family">परिवार</a>
+        <a class="hero-chip" href="/category.html?cat=college">कॉलेज</a>
+        <a class="hero-chip" href="/category.html?cat=festival">त्योहार</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stats-inner">
+      <div class="stat-item"><div class="stat-icon">📚</div><div><div class="stat-val">1000+</div><div class="stat-lbl">कहानियाँ</div></div></div>
+      <div class="stat-item"><div class="stat-icon">📂</div><div><div class="stat-val">17</div><div class="stat-lbl">श्रेणियाँ</div></div></div>
+      <div class="stat-item"><div class="stat-icon">👁</div><div><div class="stat-val">50L+</div><div class="stat-lbl">मासिक पाठक</div></div></div>
+      <div class="stat-item"><div class="stat-icon">🔥</div><div><div class="stat-val">रोज़ नई</div><div class="stat-lbl">कहानियाँ जुड़ती हैं</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="layout-grid">
+    <main>
+      <section class="mb-8">
+        <div class="section-header"><h2 class="section-title">नवीनतम कहानियाँ</h2><a class="see-all" href="/all-stories.html">सभी देखें</a></div>
+        <div class="stories-grid" id="latest-stories"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
+        <div class="pagination" id="latest-pagination"></div>
+      </section>
+      <section class="mb-8">
+        <div class="section-header"><h2 class="section-title">🔥 ट्रेंडिंग कहानियाँ</h2></div>
+        <div id="trending-list"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
+      </section>
+      <div id="category-sections"><div class="loading"><div class="spinner"></div>श्रेणियाँ लोड हो रही हैं...</div></div>
+    </main>
+    <aside class="sidebar">
+      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी पढ़ें</button></div>
+      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></ul></div>
+      <div class="sidebar-widget"><h3 class="widget-title">👁 सर्वाधिक पढ़ी गई</h3><div id="most-viewed-list"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></div></div>
+      <div class="sidebar-widget"><h3 class="widget-title">🏷️ लोकप्रिय टैग</h3><div class="tags-cloud" id="sidebar-tags"><div class="loading" style="padding:20px 0"><div class="spinner"></div></div></div></div>
+    </aside>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/trending.js"></script>
+<script src="/js/categories.js"></script>
+<script src="/js/tags.js"></script>
+<script>
+document.getElementById('hero-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = document.getElementById('hero-search').value.trim();
+  if (q) window.location.href = '/search.html?q=' + encodeURIComponent(q);
+});
+async function buildLatest() {
+  const data = await window.APP.loadStories();
+  const sorted = [...data.stories].sort((a,b) => new Date(b.date)-new Date(a.date));
+  createPagination(sorted, 10, window.APP.storyCardHTML, 'latest-stories', 'latest-pagination');
+}
+async function buildCategorySections() {
+  const data = await window.APP.loadStories();
+  const el = document.getElementById('category-sections');
+  if (!el) return;
+  const showCats = ['desi','romance','family','village'];
+  let html = '';
+  for (const catId of showCats) {
+    const catInfo = data.categories.find(c=>c.id===catId);
+    if (!catInfo) continue;
+    const stories = data.stories.filter(s=>(s.categories||[]).includes(catId)).slice(0,5);
+    if (!stories.length) continue;
+    html += `<section class="mb-8"><div class="section-header"><h2 class="section-title">${catInfo.name} कहानियाँ</h2><a class="see-all" href="/category.html?cat=${catId}">सभी देखें</a></div><div class="cards-grid">${stories.map(s=>window.APP.smallCardHTML(s)).join('')}</div></section>`;
+  }
+  el.innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', () => { buildLatest(); buildCategorySections(); });
+</script>
+</body>
+</html>

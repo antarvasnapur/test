@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>साइटमैप — AntarVasna Pur</title>
+  <meta name="description" content="AntarVasna Pur का पूरा साइटमैप — सभी पेज और कहानियाँ">
+  <link rel="canonical" href="https://antarvasnapur.in/sitemap.html">
+</head>
+<body>
+
+<section class="page-hero">
+  <h1>साइटमैप</h1>
+  <p>AntarVasna Pur के सभी पेज और कहानियाँ</p>
+</section>
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px;">
+    <div class="sidebar-widget">
+      <h3 class="widget-title">📄 मुख्य पेज</h3>
+      <ul class="cat-list">
+        <li><a href="/">होम</a></li>
+        <li><a href="/all-stories.html">सभी कहानियाँ</a></li>
+        <li><a href="/search.html">खोजें</a></li>
+        <li><a href="/about.html">हमारे बारे में</a></li>
+        <li><a href="/contact.html">संपर्क</a></li>
+        <li><a href="/sitemap.html">साइटमैप</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-widget">
+      <h3 class="widget-title">📂 श्रेणियाँ</h3>
+      <ul class="cat-list" id="sitemap-cats"><div class="loading" style="padding:10px"><div class="spinner"></div></div></ul>
+    </div>
+    <div class="sidebar-widget">
+      <h3 class="widget-title">🏷️ टैग</h3>
+      <div class="tags-cloud" id="sitemap-tags"></div>
+    </div>
+  </div>
+  <div style="margin-top:40px;">
+    <div class="section-header"><h2 class="section-title">📚 सभी कहानियाँ</h2></div>
+    <div style="columns:2 320px;column-gap:24px;margin-top:16px;" id="sitemap-stories">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script>
+async function buildSitemap() {
+  const data = await window.APP.loadStories();
+  document.getElementById('sitemap-cats').innerHTML = data.categories.map(c =>
+    `<li><a href="/category.html?cat=${c.id}">${c.name} <span class="count">${c.count}</span></a></li>`).join('');
+  document.getElementById('sitemap-tags').innerHTML = data.tags.map(t =>
+    `<a href="/tag.html?tag=${t}">#${t}</a>`).join('');
+  document.getElementById('sitemap-stories').innerHTML = data.stories.map(s =>
+    `<div style="break-inside:avoid;margin-bottom:8px;"><a href="/stories/${s.slug}.html" style="color:var(--text-muted);font-size:.88rem;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="color:var(--accent)">›</span> ${s.title}</a></div>`).join('');
+}
+document.addEventListener('DOMContentLoaded', buildSitemap);
+</script>
+</body>
+</html>

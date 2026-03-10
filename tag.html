@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title id="page-title">टैग — AntarVasna Pur</title>
+  <meta name="description" id="page-desc" content="टैग के अनुसार हिंदी कहानियाँ — AntarVasna Pur">
+  <link rel="canonical" href="https://antarvasnapur.in/tag.html">
+</head>
+<body>
+
+<section class="page-hero">
+  <h1 id="tag-title">टैग</h1>
+  <p id="tag-desc">इस टैग वाली सभी कहानियाँ</p>
+</section>
+<div class="container">
+  <div class="layout-grid">
+    <main>
+      <div class="stories-grid" id="tag-results"><div class="loading"><div class="spinner"></div>लोड हो रहा है...</div></div>
+      <div class="pagination" id="tag-pagination"></div>
+    </main>
+    <aside class="sidebar">
+      <div class="sidebar-widget"><h3 class="widget-title">📂 श्रेणियाँ</h3><ul class="cat-list" id="sidebar-categories"></ul></div>
+      <div class="sidebar-widget"><h3 class="widget-title">🏷️ सभी टैग</h3><div class="tags-cloud" id="sidebar-tags"></div></div>
+      <div class="sidebar-widget"><button class="btn-random" data-random>🎲 यादृच्छिक कहानी</button></div>
+    </aside>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/categories.js"></script>
+<script src="/js/tags.js"></script>
+<script>
+const tag = new URLSearchParams(window.location.search).get('tag') || '';
+if (tag) document.getElementById('page-title').textContent = '#' + tag + ' — AntarVasna Pur';
+</script>
+</body>
+</html>
