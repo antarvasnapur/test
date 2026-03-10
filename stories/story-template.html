@@ -23,68 +23,88 @@
     "publisher": {"@type": "Organization", "name": "AntarVasna Pur", "url": "https://antarvasnapur.in"}
   }
   </script>
+  <style>
+    .story-container { max-width: 860px; margin: 0 auto; padding: 0 16px 80px; }
+    .story-breadcrumb { padding: 20px 0 0; font-size: 0.82rem; color: var(--text-light); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .story-breadcrumb a { color: var(--text-light); }
+    .story-breadcrumb a:hover { color: var(--accent); }
+    .story-breadcrumb .sep { color: var(--border); }
+    .story-breadcrumb .current { color: var(--text); font-weight: 500; }
+    .story-full { margin-top: 28px; }
+    .story-cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .cat-pill { display: inline-block; padding: 3px 12px; background: rgba(192,57,43,0.09); color: var(--accent); border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cat-pill:hover { background: var(--accent); color: #fff; }
+    .story-title { font-family: var(--font-heading); font-size: clamp(1.6rem,4vw,2.4rem); color: var(--text); line-height: 1.2; margin-bottom: 16px; }
+    .story-meta-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 0.82rem; color: var(--text-light); padding: 12px 0; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); margin-bottom: 20px; }
+    .story-meta-bar span { display: flex; align-items: center; gap: 4px; }
+    .story-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .story-body { font-family: var(--font-heading); font-size: 1.1rem; line-height: 2; color: var(--text); }
+    .story-body p { margin-bottom: 1.4em; }
+    .story-tags { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .story-tags strong { font-size: 0.8rem; color: var(--text-light); }
+    .tag { display: inline-block; padding: 4px 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 50px; font-size: 0.78rem; color: var(--text-muted); }
+    .tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .story-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+    @media (max-width: 480px) { .story-nav-grid { grid-template-columns: 1fr; } }
+    .nav-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; text-decoration: none; display: block; transition: border-color 0.2s, box-shadow 0.2s; }
+    .nav-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .nav-card .nav-lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); display: block; margin-bottom: 4px; }
+    .nav-card .nav-t { font-size: 0.9rem; font-weight: 600; color: var(--text); font-family: var(--font-heading); }
+  </style>
 </head>
 <body>
 
-<div class="container" style="max-width:900px;">
+<div class="story-container">
 
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb" style="padding-top:24px;">
-    <a href="/">होम</a><span>›</span>
-    <a href="/category.html?cat={{STORY_CAT}}">{{STORY_CAT_NAME}}</a><span>›</span>
-    <span>{{STORY_TITLE}}</span>
+  <nav class="story-breadcrumb">
+    <a href="/">होम</a>
+    <span class="sep">›</span>
+    <a href="/category.html?cat={{STORY_CAT}}">{{STORY_CAT_NAME}}</a>
+    <span class="sep">›</span>
+    <span class="current">{{STORY_TITLE}}</span>
   </nav>
 
-  <!-- Story Header -->
   <article class="story-full">
-    <header class="story-header">
-      <div class="story-cats">
-        {{STORY_CATS_HTML}}
-      </div>
-      <h1 class="story-title">{{STORY_TITLE}}</h1>
-      <div class="story-meta-bar">
-        <span>📅 {{STORY_DATE}}</span>
-        <span>👁 {{STORY_VIEWS}} बार पढ़ी गई</span>
-        <span>⏱ {{STORY_READ_TIME}} मिनट पढ़ने का समय</span>
-        <span>⭐ {{STORY_RATING}}/5</span>
-      </div>
-      <div class="story-actions">
-        <button class="action-btn" id="bookmark-btn" data-slug="{{STORY_SLUG}}">🔖 बुकमार्क</button>
-        <button class="action-btn" data-random>🎲 यादृच्छिक</button>
-      </div>
-    </header>
 
-    <!-- Story Body -->
+    <div class="story-cats">{{STORY_CATS_HTML}}</div>
+
+    <h1 class="story-title">{{STORY_TITLE}}</h1>
+
+    <div class="story-meta-bar">
+      <span>📅 {{STORY_DATE}}</span>
+      <span>👁 {{STORY_VIEWS}} बार पढ़ी गई</span>
+      <span>⏱ {{STORY_READ_TIME}} मिनट</span>
+      <span>⭐ {{STORY_RATING}}/5</span>
+    </div>
+
+    <div class="story-actions">
+      <button class="action-btn" id="bookmark-btn" data-slug="{{STORY_SLUG}}">🔖 बुकमार्क</button>
+      <button class="action-btn" data-random>🎲 यादृच्छिक</button>
+    </div>
+
     <div class="story-body">
       {{STORY_CONTENT}}
     </div>
 
-    <!-- Tags -->
-    <div class="story-tags" style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border);">
-      <strong style="font-size:.85rem;color:var(--text-light);">टैग:</strong>
+    <div class="story-tags">
+      <strong>टैग:</strong>
       {{STORY_TAGS_HTML}}
     </div>
 
-    <!-- Rating -->
-    <div class="rating-widget" id="rating-widget" data-slug="{{STORY_SLUG}}" style="margin-top:28px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;">
-      <p style="font-weight:600;margin-bottom:10px;">इस कहानी को रेट करें</p>
-      <div class="stars" id="story-stars">
+    <div style="margin-top:28px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;">
+      <p style="font-weight:600;font-size:.9rem;margin-bottom:10px;color:var(--text);">इस कहानी को रेट करें</p>
+      <div id="story-stars" style="display:flex;gap:6px;cursor:pointer;font-size:1.6rem;color:var(--border);">
         <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
       </div>
     </div>
 
-    <!-- Story Nav -->
-    <div class="story-nav" style="margin-top:36px;" id="story-nav">
-      <div class="loading" style="padding:20px 0"><div class="spinner"></div></div>
-    </div>
+    <div id="story-nav-wrap"></div>
+
   </article>
 
-  <!-- Related Stories -->
-  <section class="mb-8">
+  <section style="margin-top:40px;">
     <div class="section-header"><h2 class="section-title">संबंधित कहानियाँ</h2></div>
-    <div class="cards-grid" id="related-stories">
-      <div class="loading"><div class="spinner"></div></div>
-    </div>
+    <div class="cards-grid" id="related-stories"><div class="loading"><div class="spinner"></div></div></div>
   </section>
 
 </div>
@@ -96,21 +116,39 @@
 <script src="/js/related.js"></script>
 <script>
 const STORY_SLUG = '{{STORY_SLUG}}';
-const STORY_CAT  = '{{STORY_CAT}}';
 
-// Story navigation (prev / next)
+// Star rating interactive
+(function(){
+  const stars = document.querySelectorAll('#story-stars span');
+  const KEY = 'rating_' + STORY_SLUG;
+  const saved = parseInt(localStorage.getItem(KEY) || '0');
+  function paint(n) { stars.forEach((s,i) => s.style.color = i < n ? '#f39c12' : 'var(--border)'); }
+  paint(saved);
+  stars.forEach((s,i) => {
+    s.addEventListener('mouseenter', () => paint(i+1));
+    s.addEventListener('mouseleave', () => paint(saved));
+    s.addEventListener('click', () => {
+      localStorage.setItem(KEY, i+1);
+      paint(i+1);
+    });
+  });
+})();
+
+// Story prev/next navigation
 async function buildStoryNav() {
   const data = await window.APP.loadStories();
   const sorted = [...data.stories].sort((a,b) => new Date(b.date)-new Date(a.date));
   const idx = sorted.findIndex(s => s.slug === STORY_SLUG);
   const prev = idx < sorted.length-1 ? sorted[idx+1] : null;
   const next = idx > 0 ? sorted[idx-1] : null;
-  document.getElementById('story-nav').innerHTML = `
-    <div class="story-nav-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      ${prev ? `<a class="nav-card" href="/stories/${prev.slug}.html" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-decoration:none;display:block;"><span style="font-size:.75rem;color:var(--text-light);display:block;margin-bottom:4px;">← पिछली कहानी</span><span style="font-size:.9rem;font-weight:600;color:var(--text);">${prev.title}</span></a>` : '<div></div>'}
-      ${next ? `<a class="nav-card" href="/stories/${next.slug}.html" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-decoration:none;display:block;text-align:right;"><span style="font-size:.75rem;color:var(--text-light);display:block;margin-bottom:4px;">अगली कहानी →</span><span style="font-size:.9rem;font-weight:600;color:var(--text);">${next.title}</span></a>` : '<div></div>'}
-    </div>`;
+  const wrap = document.getElementById('story-nav-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = `<div class="story-nav-grid">
+    ${prev ? `<a class="nav-card" href="/stories/${prev.slug}.html"><span class="nav-lbl">← पिछली कहानी</span><span class="nav-t">${prev.title}</span></a>` : '<div></div>'}
+    ${next ? `<a class="nav-card" href="/stories/${next.slug}.html" style="text-align:right;"><span class="nav-lbl">अगली कहानी →</span><span class="nav-t">${next.title}</span></a>` : '<div></div>'}
+  </div>`;
 }
+
 document.addEventListener('DOMContentLoaded', buildStoryNav);
 </script>
 
