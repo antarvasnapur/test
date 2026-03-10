@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कॉलेज के दिन — AntarVasna Pur</title>
+  <meta name="description" content="वो कॉलेज के दिन जब जिंदगी में पहली बार प्यार का एहसास हुआ...">
+  <link rel="canonical" href="https://antarvasnapur.in/stories/college-ke-din.html">
+  <meta property="og:title" content="कॉलेज के दिन — AntarVasna Pur">
+  <meta property="og:description" content="वो कॉलेज के दिन जब जिंदगी में पहली बार प्यार का एहसास हुआ...">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://antarvasnapur.in/stories/college-ke-din.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "कॉलेज के दिन",
+    "description": "वो कॉलेज के दिन जब जिंदगी में पहली बार प्यार का एहसास हुआ...",
+    "datePublished": "2024-02-20",
+    "author": {"@type": "Organization", "name": "AntarVasna Pur"},
+    "publisher": {"@type": "Organization", "name": "AntarVasna Pur", "url": "https://antarvasnapur.in"}
+  }
+  </script>
+</head>
+<body>
+
+<div class="container" style="max-width:900px;">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" style="padding-top:24px;">
+    <a href="/">होम</a><span>›</span>
+    <a href="/category.html?cat=college">College</a><span>›</span>
+    <span>कॉलेज के दिन</span>
+  </nav>
+
+  <!-- Story Header -->
+  <article class="story-full">
+    <header class="story-header">
+      <div class="story-cats">
+        <a href="/category.html?cat=college" class="cat-pill">college</a><a href="/category.html?cat=youth" class="cat-pill">youth</a>
+      </div>
+      <h1 class="story-title">कॉलेज के दिन</h1>
+      <div class="story-meta-bar">
+        <span>📅 2024-02-20</span>
+        <span>👁 14600 बार पढ़ी गई</span>
+        <span>⏱ 3 मिनट पढ़ने का समय</span>
+        <span>⭐ 4.4/5</span>
+      </div>
+      <div class="story-actions">
+        <button class="action-btn" id="bookmark-btn" data-slug="college-ke-din">🔖 बुकमार्क</button>
+        <button class="action-btn" data-random>🎲 यादृच्छिक</button>
+      </div>
+    </header>
+
+    <!-- Story Body -->
+    <div class="story-body">
+      <p>यह कहानी "कॉलेज के दिन" का नमूना पाठ है। यहाँ असली कहानी का पूरा पाठ आएगा।</p><p>AntarVasna Pur पर हर दिन नई कहानियाँ प्रकाशित होती हैं। इस कहानी को पढ़कर अपनी राय ज़रूर दें।</p>
+    </div>
+
+    <!-- Tags -->
+    <div class="story-tags" style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border);">
+      <strong style="font-size:.85rem;color:var(--text-light);">टैग:</strong>
+      <a href="/tag.html?tag=college" class="tag">#college</a> <a href="/tag.html?tag=youth" class="tag">#youth</a> <a href="/tag.html?tag=romance" class="tag">#romance</a> <a href="/tag.html?tag=friendship" class="tag">#friendship</a> 
+    </div>
+
+    <!-- Rating -->
+    <div class="rating-widget" id="rating-widget" data-slug="college-ke-din" style="margin-top:28px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;">
+      <p style="font-weight:600;margin-bottom:10px;">इस कहानी को रेट करें</p>
+      <div class="stars" id="story-stars">
+        <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+    </div>
+
+    <!-- Story Nav -->
+    <div class="story-nav" style="margin-top:36px;" id="story-nav">
+      <div class="loading" style="padding:20px 0"><div class="spinner"></div></div>
+    </div>
+  </article>
+
+  <!-- Related Stories -->
+  <section class="mb-8">
+    <div class="section-header"><h2 class="section-title">संबंधित कहानियाँ</h2></div>
+    <div class="cards-grid" id="related-stories">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+</div>
+
+<script src="/js/main.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/bookmarks.js"></script>
+<script src="/js/rating.js"></script>
+<script src="/js/related.js"></script>
+<script>
+const STORY_SLUG = 'college-ke-din';
+const STORY_CAT  = 'college';
+
+// Story navigation (prev / next)
+async function buildStoryNav() {
+  const data = await window.APP.loadStories();
+  const sorted = [...data.stories].sort((a,b) => new Date(b.date)-new Date(a.date));
+  const idx = sorted.findIndex(s => s.slug === STORY_SLUG);
+  const prev = idx < sorted.length-1 ? sorted[idx+1] : null;
+  const next = idx > 0 ? sorted[idx-1] : null;
+  document.getElementById('story-nav').innerHTML = `
+    <div class="story-nav-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      ${prev ? `<a class="nav-card" href="/stories/${prev.slug}.html" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-decoration:none;display:block;"><span style="font-size:.75rem;color:var(--text-light);display:block;margin-bottom:4px;">← पिछली कहानी</span><span style="font-size:.9rem;font-weight:600;color:var(--text);">${prev.title}</span></a>` : '<div></div>'}
+      ${next ? `<a class="nav-card" href="/stories/${next.slug}.html" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-decoration:none;display:block;text-align:right;"><span style="font-size:.75rem;color:var(--text-light);display:block;margin-bottom:4px;">अगली कहानी →</span><span style="font-size:.9rem;font-weight:600;color:var(--text);">${next.title}</span></a>` : '<div></div>'}
+    </div>`;
+}
+document.addEventListener('DOMContentLoaded', buildStoryNav);
+</script>
+
+</body>
+</html>
