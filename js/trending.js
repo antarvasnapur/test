@@ -1,47 +1,26 @@
-// trending.js — Trending and most-viewed sections
+/* ===== TRENDING.JS ===== */
 
-async function buildTrending(containerId, limit = 7) {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById(containerId);
-  if (!el) return;
-
-  const sorted = [...data.stories]
-    .sort((a, b) => b.views - a.views)
-    .slice(0, limit);
-
-  el.innerHTML = sorted.map((s, i) => window.APP.trendingItemHTML(s, i)).join('');
+async function initTrendingSection() {
+  const container = document.getElementById('trending-stories');
+  if (!container) return;
+  const stories = await window.SITE.loadStories();
+  const base = window.SITE.getBasePath();
+  const trending = window.SITE.getTrending(stories, 6);
+  container.innerHTML = `<div class="stories-grid">${trending.map(s => window.SITE.buildStoryCard(s, base)).join('')}</div>`;
 }
 
-async function buildMostViewed(containerId, limit = 5) {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById(containerId);
-  if (!el) return;
-
-  const sorted = [...data.stories]
-    .sort((a, b) => b.views - a.views)
-    .slice(0, limit);
-
-  el.innerHTML = sorted.map(s => window.APP.smallCardHTML(s)).join('');
-}
-
-async function buildLatest(containerId, limit = 10) {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById(containerId);
-  if (!el) return;
-
-  const sorted = [...data.stories]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, limit);
-
-  el.innerHTML = sorted.map(s => window.APP.storyCardHTML(s)).join('');
+async function initMostViewed() {
+  const container = document.getElementById('most-viewed');
+  if (!container) return;
+  const stories = await window.SITE.loadStories();
+  const base = window.SITE.getBasePath();
+  const viewed = [...stories].sort((a, b) => b.views - a.views).slice(0, 6);
+  container.innerHTML = `<div class="stories-grid">${viewed.map(s => window.SITE.buildStoryCard(s, base)).join('')}</div>`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('trending-list')) buildTrending('trending-list');
-  if (document.getElementById('most-viewed-list')) buildMostViewed('most-viewed-list');
-  if (document.getElementById('latest-stories')) buildLatest('latest-stories');
+  initTrendingSection();
+  initMostViewed();
+  window.SITE.renderTrendingWidget('sidebar-trending');
+  window.SITE.renderTagsWidget('sidebar-tags');
 });
-
-window.buildTrending = buildTrending;
-window.buildMostViewed = buildMostViewed;
-window.buildLatest = buildLatest;

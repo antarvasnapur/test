@@ -1,21 +1,48 @@
-// related.js — Related stories for story pages
+/* ===== RELATED.JS - Related Stories & Infinite Scroll ===== */
 
-async function buildRelated(currentSlug, categories, containerId, limit = 4) {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById(containerId);
-  if (!el) return;
+let relatedLoaded = 0;
+let relatedBatch = [];
+let loadingMore = false;
 
-  const related = data.stories
-    .filter(s => s.slug !== currentSlug && (s.categories || []).some(c => categories.includes(c)))
-    .sort(() => Math.random() - 0.5)
-    .slice(0, limit);
-
-  if (related.length === 0) {
-    el.innerHTML = '<p class="text-muted">कोई संबंधित कहानी नहीं मिली।</p>';
-    return;
-  }
-
-  el.innerHTML = `<div class="related-grid">${related.map(s => window.APP.smallCardHTML(s)).join('')}</div>`;
+async function initRelatedStories(currentSlug) {
+  const container = document.getElementById('related-stories');
+  if (!container) return;
+  const stories = await window.SITE.loadStories();
+  const base = window.SITE.getBasePath();
+  const current = stories.find(s => s.slug === currentSlug);
+  relatedBatch = window.SITE.getRelated(stories, current, 20);
+  relatedLoaded = 0;
+  renderNextRelatedBatch(container, base);
+  initInfiniteScroll(container, base);
 }
 
-window.buildRelated = buildRelated;
+function renderNextRelatedBatch(container, base) {
+  const batch = relatedBatch.slice(relatedLoaded, relatedLoaded + 6);
+  if (batch.length === 0) return;
+  batch.forEach(story => {
+    const div = document.createElement('div');
+    div.innerHTML = window.SITE.buildStoryCard(story, base);
+    container.appendChild(div.firstElementChild);
+  });
+  relatedLoaded += batch.length;
+}
+
+function initInfiniteScroll(container, base) {
+  const sentinel = document.getElementById('related-sentinel');
+  if (!sentinel) return;
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !loadingMore && relatedLoaded < relatedBatch.length) {
+      loadingMore = true;
+      setTimeout(() => {
+        renderNextRelatedBatch(container, base);
+        loadingMore = false;
+      }, 300);
+    }
+  }, { rootMargin: '200px' });
+  observer.observe(sentinel);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const slug = document.body.dataset.slug;
+  if (slug) initRelatedStories(slug);
+});

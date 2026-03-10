@@ -1,27 +1,10 @@
-// darkmode.js — Dark mode toggle
-
-(function () {
-  const KEY = 'avp-theme';
-  const btn = document.getElementById('darkmode-btn');
-
-  function setTheme(dark) {
-    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    localStorage.setItem(KEY, dark ? 'dark' : 'light');
-    if (btn) btn.textContent = dark ? '☀️' : '🌙';
-  }
-
-  function init() {
-    const saved = localStorage.getItem(KEY);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(saved === 'dark' || (!saved && prefersDark));
-  }
-
-  if (btn) {
-    btn.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      setTheme(!isDark);
-    });
-  }
-
-  init();
-})();
+/* ===== DARKMODE.JS ===== */
+// Dark mode is handled in main.js; this file exports helpers
+window.DarkMode = {
+  toggle() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  },
+  isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+};

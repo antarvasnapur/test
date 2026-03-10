@@ -1,107 +1,112 @@
-// search.js — Search with Hindi + English support
+/* ===== SEARCH.JS ===== */
 
-// English keyword → Hindi/Slug mappings for cross-language search
-const SEARCH_MAP = {
-  // Categories in English
-  'desi': ['desi', 'देसी', 'देस'],
-  'village': ['village', 'gaon', 'गाँव', 'गाव'],
-  'romance': ['romance', 'prem', 'pyar', 'प्रेम', 'रोमांस', 'प्यार'],
-  'family': ['family', 'parivar', 'परिवार'],
-  'college': ['college', 'कॉलेज'],
-  'urban': ['urban', 'shehar', 'city', 'शहर', 'मॉडर्न'],
-  'modern': ['modern', 'urban', 'शहर', 'मॉडर्न'],
-  'adventure': ['adventure', 'pahad', 'पहाड़'],
-  'festival': ['festival', 'holi', 'त्योहार', 'होली', 'diwali'],
-  'office': ['office', 'daftar', 'ऑफिस', 'दफ्तर'],
-  'rajasthani': ['rajasthani', 'rajasthan', 'राजस्थान', 'राजस्थानी'],
-  'nature': ['nature', 'nature', 'prakriti', 'प्रकृति'],
-  'marriage': ['marriage', 'shaadi', 'vivah', 'शादी', 'विवाह'],
-  'youth': ['youth', 'yuva', 'युवा'],
-  // Common Hindi-to-English search terms
-  'गाँव': ['village', 'gaon', 'desi'],
-  'गांव': ['village', 'gaon', 'desi'],
-  'प्रेम': ['romance', 'prem', 'love', 'pyar'],
-  'प्यार': ['romance', 'prem', 'love', 'pyar'],
-  'रोमांस': ['romance', 'prem'],
-  'परिवार': ['family', 'parivar'],
-  'शहर': ['urban', 'city', 'shehar', 'modern'],
-  'देसी': ['desi'],
-  'रात': ['raat', 'night', 'gaon'],
-  'कॉलेज': ['college'],
-  'होली': ['holi', 'festival'],
-  'राजस्थान': ['rajasthani', 'rajasthan'],
-};
-
-function expandQuery(q) {
-  const lower = q.toLowerCase().trim();
-  const terms = new Set([lower]);
-  // Check if query matches any key in SEARCH_MAP
-  for (const [key, vals] of Object.entries(SEARCH_MAP)) {
-    if (key.toLowerCase() === lower || lower.includes(key.toLowerCase())) {
-      vals.forEach(v => terms.add(v.toLowerCase()));
-    }
-    // Reverse: if query matches a value, add the key
-    if (vals.some(v => v.toLowerCase() === lower || lower.includes(v.toLowerCase()))) {
-      terms.add(key.toLowerCase());
-      vals.forEach(v => terms.add(v.toLowerCase()));
-    }
-  }
-  return Array.from(terms);
+function normalizeText(str) {
+  return str.toLowerCase().trim().replace(/\s+/g, ' ');
 }
 
-function storyMatchesTerms(story, terms) {
-  const fields = [
-    story.title,
-    story.slug,
-    story.excerpt || '',
-    ...(story.tags || []),
-    ...(story.categories || []),
-  ].map(f => f.toLowerCase());
-
-  return terms.some(term =>
-    fields.some(field => field.includes(term))
-  );
+function searchStories(stories, query) {
+  if (!query || !query.trim()) return stories;
+  const q = normalizeText(query);
+  const terms = q.split(' ').filter(Boolean);
+  return stories
+    .map(story => {
+      const searchable = normalizeText([
+        story.title,
+        story.excerpt || '',
+        ...(story.tags || []),
+        ...(story.categories || [])
+      ].join(' '));
+      let score = 0;
+      const titleNorm = normalizeText(story.title);
+      terms.forEach(term => {
+        if (titleNorm.includes(term)) score += 10;
+        if (searchable.includes(term)) score += 1;
+      });
+      return { story, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.story);
 }
 
-async function initSearch() {
-  const data = await window.APP.loadStories();
-  const q = new URLSearchParams(window.location.search).get('q') || '';
-  const input = document.getElementById('search-input');
-  if (input) input.value = q;
+// Initialize search page
+async function initSearchPage() {
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get('q') || '';
+  const searchInput = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('search-results');
+  const resultsCount = document.getElementById('search-results-count');
+  const paginationEl = document.getElementById('search-pagination');
+  if (!resultsContainer) return;
 
-  const resultsEl = document.getElementById('search-results');
-  const countEl   = document.getElementById('result-count');
-  const queryEl   = document.getElementById('search-query');
-  const headingEl = document.getElementById('results-heading');
+  if (searchInput) searchInput.value = query;
 
-  if (queryEl) queryEl.textContent = q;
+  const stories = await window.SITE.loadStories();
+  const base = window.SITE.getBasePath();
 
-  if (!q.trim()) {
-    if (resultsEl) resultsEl.innerHTML = '<p class="text-muted" style="padding:60px 0;text-align:center;font-size:1.05rem;">🔍 ऊपर कुछ खोजें...</p>';
-    return;
+  const runSearch = (q) => {
+    const results = searchStories(stories, q);
+    if (resultsCount) {
+      if (q) {
+        resultsCount.innerHTML = results.length > 0
+          ? `Found <strong>${results.length}</strong> stories for "<strong>${q}</strong>"`
+          : `No results for "<strong>${q}</strong>"`;
+      } else {
+        resultsCount.innerHTML = `Showing all <strong>${results.length}</strong> stories`;
+      }
+    }
+    if (results.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="no-results">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <h3>No stories found</h3>
+          <p>Try different keywords or browse by category</p>
+        </div>`;
+      if (paginationEl) paginationEl.innerHTML = '';
+      return;
+    }
+    const pager = new Paginator({
+      containerId: 'search-results',
+      paginationId: 'search-pagination',
+      items: results,
+      perPage: 10,
+      renderFn: s => window.SITE.buildStoryCard(s, base)
+    });
+    pager.render();
+  };
+
+  runSearch(query);
+
+  // Live search
+  if (searchInput) {
+    let timeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const q = searchInput.value.trim();
+        const url = new URL(window.location);
+        if (q) url.searchParams.set('q', q);
+        else url.searchParams.delete('q');
+        window.history.replaceState({}, '', url);
+        runSearch(q);
+      }, 300);
+    });
   }
 
-  if (headingEl) headingEl.style.display = 'block';
-
-  // Expand query to cover both Hindi and English terms
-  const terms = expandQuery(q);
-
-  const results = data.stories.filter(s => storyMatchesTerms(s, terms));
-
-  if (countEl) countEl.textContent = results.length;
-
-  if (!resultsEl) return;
-
-  if (results.length === 0) {
-    resultsEl.innerHTML = `<div class="bookmarks-empty"><div class="icon">🔍</div><p>"${q}" के लिए कोई परिणाम नहीं मिला।<br><small style="color:var(--text-light)">अलग शब्द या हिंदी में खोजें</small></p></div>`;
-    return;
+  // Search form
+  const form = document.getElementById('search-form');
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = searchInput?.value.trim() || '';
+      runSearch(q);
+    });
   }
-
-  createPagination(results, 10, window.APP.storyCardHTML, 'search-results', 'search-pagination');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('search-results')) {
-    initSearch();
-  }
+  if (document.body.dataset.page === 'search') initSearchPage();
 });
+
+window.searchStories = searchStories;
+window.initSearchPage = initSearchPage;

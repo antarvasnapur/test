@@ -1,40 +1,51 @@
-// tags.js — Tag page logic
+/* ===== TAGS.JS ===== */
 
 async function initTagPage() {
-  const data = await window.APP.loadStories();
-  const tag = new URLSearchParams(window.location.search).get('tag') || '';
-
-  const titleEl = document.getElementById('tag-title');
-  const descEl = document.getElementById('tag-desc');
-  if (titleEl) titleEl.textContent = '#' + tag;
-  if (descEl) descEl.textContent = `"${tag}" टैग वाली सभी कहानियाँ`;
-
-  const filtered = data.stories.filter(s => (s.tags || []).includes(tag));
-
+  const params = new URLSearchParams(window.location.search);
+  const tag = decodeURIComponent(params.get('t') || '');
+  const bannerEl = document.getElementById('page-banner');
   const resultsEl = document.getElementById('tag-results');
   if (!resultsEl) return;
 
-  if (filtered.length === 0) {
-    resultsEl.innerHTML = `<div class="bookmarks-empty"><div class="icon">🏷️</div><p>इस टैग में कोई कहानी नहीं है।</p></div>`;
-    return;
+  const stories = await window.SITE.loadStories();
+  const base = window.SITE.getBasePath();
+
+  if (tag) {
+    if (bannerEl) {
+      bannerEl.querySelector('h1').textContent = '#' + tag;
+      bannerEl.querySelector('p').textContent = `Stories tagged with "${tag}"`;
+    }
+    document.title = `${tag} Stories - Antarvasnapur`;
+    const filtered = stories.filter(s => (s.tags || []).includes(tag));
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🏷️</div><h3>No stories found</h3><p>No stories with this tag yet.</p></div>`;
+      return;
+    }
+    const pager = new Paginator({
+      containerId: 'tag-results',
+      paginationId: 'tag-pagination',
+      items: filtered,
+      perPage: 12,
+      renderFn: s => window.SITE.buildStoryCard(s, base)
+    });
+    pager.render();
+  } else {
+    // All tags listing
+    if (bannerEl) {
+      bannerEl.querySelector('h1').textContent = 'All Tags';
+      bannerEl.querySelector('p').textContent = 'Browse stories by tags';
+    }
+    document.title = 'Tags - Antarvasnapur';
+    const tags = window.SITE.extractTags(stories);
+    resultsEl.innerHTML = `<div class="tags-cloud" style="gap:10px">${
+      tags.map(([t, count]) => `
+        <a href="tag.html?t=${encodeURIComponent(t)}" class="tag-cloud-item" style="font-size:${Math.min(1.1, 0.8 + count * 0.04)}rem">
+          ${t} <span style="opacity:0.6;font-size:0.8em">(${count})</span>
+        </a>`).join('')
+    }</div>`;
   }
-
-  createPagination(filtered, 10, window.APP.storyCardHTML, 'tag-results', 'tag-pagination');
-}
-
-// Build tags cloud
-async function buildTagsCloud(containerId) {
-  const data = await window.APP.loadStories();
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = data.tags.slice(0, 30).map(t =>
-    `<a href="/tag.html?tag=${t}">#${t}</a>`
-  ).join('');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('tag-results')) initTagPage();
-  if (document.getElementById('sidebar-tags')) buildTagsCloud('sidebar-tags');
+  if (document.body.dataset.page === 'tag') initTagPage();
 });
-
-window.buildTagsCloud = buildTagsCloud;

@@ -1,20 +1,10 @@
-// random.js — Random story navigation
-
-async function goToRandom() {
-  const data = await window.APP.loadStories();
-  const stories = data.stories;
-  if (!stories.length) return;
-  const rand = stories[Math.floor(Math.random() * stories.length)];
-  window.location.href = `/stories/${rand.slug}.html`;
-}
-
+/* ===== RANDOM.JS ===== */
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-random]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      goToRandom();
+  document.querySelectorAll('[data-random-story]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const stories = await window.SITE.loadStories();
+      const s = window.SITE.getRandomStory(stories);
+      if (s) window.location.href = window.SITE.getBasePath() + 'stories/' + s.slug + '.html';
     });
   });
 });
-
-window.goToRandom = goToRandom;

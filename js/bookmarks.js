@@ -1,64 +1,41 @@
-// bookmarks.js — Bookmark system using localStorage
-
-const BOOKMARK_KEY = 'avp-bookmarks';
+/* ===== BOOKMARKS.JS ===== */
 
 function getBookmarks() {
-  try { return JSON.parse(localStorage.getItem(BOOKMARK_KEY)) || []; }
-  catch { return []; }
+  try { return JSON.parse(localStorage.getItem('bookmarks') || '[]'); } catch { return []; }
 }
 
 function saveBookmarks(bm) {
-  localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bm));
+  localStorage.setItem('bookmarks', JSON.stringify(bm));
 }
 
-function isBookmarked(slug) {
-  return getBookmarks().includes(slug);
+function isBookmarked(id) {
+  return getBookmarks().includes(String(id));
 }
 
-function toggleBookmark(slug, title) {
-  let bm = getBookmarks();
-  if (bm.includes(slug)) {
-    bm = bm.filter(s => s !== slug);
-    window.APP.showToast('बुकमार्क हटाया गया');
-  } else {
-    bm.push(slug);
-    window.APP.showToast('बुकमार्क किया गया! 🔖');
-  }
-  saveBookmarks(bm);
-
-  // Update button state
-  document.querySelectorAll('[data-bookmark]').forEach(btn => {
-    btn.classList.toggle('active', isBookmarked(slug));
-    btn.innerHTML = isBookmarked(slug) ? '🔖 सेव किया' : '🔖 सेव करें';
-  });
-}
-
-// Initialize bookmark buttons on story pages
-function initBookmarkBtn(slug, title) {
-  const btns = document.querySelectorAll('[data-bookmark]');
-  btns.forEach(btn => {
-    btn.innerHTML = isBookmarked(slug) ? '🔖 सेव किया' : '🔖 सेव करें';
-    btn.classList.toggle('active', isBookmarked(slug));
-    btn.addEventListener('click', () => toggleBookmark(slug, title));
-  });
-}
-
-// Build bookmarks page
-async function buildBookmarksPage() {
-  const el = document.getElementById('bookmarks-list');
-  if (!el) return;
+function toggleBookmark(id) {
   const bm = getBookmarks();
-  if (!bm.length) {
-    el.innerHTML = `<div class="bookmarks-empty"><div class="icon">🔖</div><p>आपने अभी तक कोई कहानी सेव नहीं की है।</p></div>`;
-    return;
-  }
-  const data = await window.APP.loadStories();
-  const saved = data.stories.filter(s => bm.includes(s.slug));
-  if (!saved.length) {
-    el.innerHTML = `<div class="bookmarks-empty"><div class="icon">🔖</div><p>सेव की गई कहानियाँ नहीं मिलीं।</p></div>`;
-    return;
-  }
-  el.innerHTML = `<div class="stories-grid">${saved.map(s => window.APP.storyCardHTML(s)).join('')}</div>`;
+  const sid = String(id);
+  const idx = bm.indexOf(sid);
+  if (idx === -1) bm.push(sid);
+  else bm.splice(idx, 1);
+  saveBookmarks(bm);
+  return idx === -1;
 }
 
-window.APP_BOOKMARKS = { initBookmarkBtn, buildBookmarksPage, isBookmarked, toggleBookmark };
+function initBookmarkButton(storyId) {
+  const btn = document.getElementById('bookmark-btn');
+  if (!btn) return;
+  const update = () => {
+    const marked = isBookmarked(storyId);
+    btn.classList.toggle('bookmarked', marked);
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="${marked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    ${marked ? 'Bookmarked' : 'Bookmark'}`;
+  };
+  update();
+  btn.addEventListener('click', () => {
+    toggleBookmark(storyId);
+    update();
+  });
+}
+
+window.Bookmarks = { getBookmarks, isBookmarked, toggleBookmark, initBookmarkButton };

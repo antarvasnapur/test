@@ -1,43 +1,48 @@
-// rating.js — Star rating system with localStorage
+/* ===== RATING.JS ===== */
 
-const RATING_KEY = 'avp-ratings';
-
-function getRatings() {
-  try { return JSON.parse(localStorage.getItem(RATING_KEY)) || {}; }
-  catch { return {}; }
+function getUserRating(storyId) {
+  return parseInt(localStorage.getItem('rating_' + storyId) || '0');
 }
 
-function saveRating(slug, rating) {
-  const ratings = getRatings();
-  ratings[slug] = rating;
-  localStorage.setItem(RATING_KEY, JSON.stringify(ratings));
+function saveRating(storyId, rating) {
+  localStorage.setItem('rating_' + storyId, rating);
 }
 
-function initRating(slug) {
-  const container = document.getElementById('rating-stars');
+function initRating(storyId, baseRating) {
+  const container = document.getElementById('rating-widget');
   if (!container) return;
-  const saved = getRatings()[slug] || 0;
+  const userRating = getUserRating(storyId);
+  const display = document.getElementById('rating-display');
 
-  const stars = container.querySelectorAll('span');
-
-  function highlight(n) {
-    stars.forEach((s, i) => {
-      s.classList.toggle('active', i < n);
-      s.textContent = i < n ? '★' : '☆';
+  const render = (hovered = 0, saved = userRating) => {
+    container.querySelectorAll('.star-btn').forEach((btn, i) => {
+      const val = i + 1;
+      btn.classList.toggle('rated', val <= (hovered || saved));
+      btn.textContent = val <= (hovered || saved) ? '★' : '☆';
     });
+    if (display) display.textContent = saved ? `You rated: ${saved}/5` : `Rate this story`;
+  };
+
+  container.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'star-btn';
+    btn.dataset.val = i;
+    btn.title = `Rate ${i} out of 5`;
+    btn.addEventListener('mouseover', () => render(i));
+    btn.addEventListener('mouseleave', () => render(0));
+    btn.addEventListener('click', () => {
+      saveRating(storyId, i);
+      render(0, i);
+    });
+    container.appendChild(btn);
   }
 
-  highlight(saved);
-
-  stars.forEach((star, i) => {
-    star.addEventListener('mouseenter', () => highlight(i + 1));
-    star.addEventListener('mouseleave', () => highlight(getRatings()[slug] || 0));
-    star.addEventListener('click', () => {
-      saveRating(slug, i + 1);
-      highlight(i + 1);
-      window.APP.showToast(`${i + 1} स्टार दिए! धन्यवाद ⭐`);
-    });
-  });
+  const label = document.createElement('span');
+  label.id = 'rating-display';
+  label.style.cssText = 'font-size:0.82rem;color:var(--text-light);margin-left:8px';
+  container.appendChild(label);
+  render(0, userRating);
 }
 
-window.initRating = initRating;
+window.Rating = { initRating, getUserRating };
