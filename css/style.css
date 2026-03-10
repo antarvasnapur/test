@@ -1331,3 +1331,53 @@ footer.footer-v2 {
 .footer-legal a:first-child { padding-left: 0; }
 .footer-legal a:last-child { border-right: none; }
 .footer-legal a:hover { color: var(--accent); }
+
+/* ════════════════════════════════════════
+   FOOTER — minimal centred bar
+   ════════════════════════════════════════ */
+footer.footer-v2 {
+  margin-top: 60px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+  width: 100%;
+  padding: 0;
+}
+/* Hide the old multi-col grid if it ever exists */
+footer.footer-v2 .footer-main { display: none; }
+
+/* Single centred bar */
+.footer-only-bar {
+  border-top: none !important;
+  background: var(--bg-secondary);
+}
+.footer-only-bar .footer-bottom-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.footer-only-bar .footer-copy {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+.footer-only-bar .footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+}
+.footer-only-bar .footer-legal a {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  padding: 3px 10px;
+  border-right: 1px solid var(--border);
+  line-height: 1;
+  transition: color 0.2s;
+}
+.footer-only-bar .footer-legal a:first-child { padding-left: 0; }
+.footer-only-bar .footer-legal a:last-child { border-right: none; padding-right: 0; }
+.footer-only-bar .footer-legal a:hover { color: var(--accent); }
