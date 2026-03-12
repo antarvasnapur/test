@@ -66,11 +66,13 @@ body{font-family:var(--body);background:var(--bg);color:var(--t1);min-height:100
 .badge-local{background:rgba(42,33,24,.8);border:1px solid var(--line2);color:var(--t3)}
 
 /* ── LAYOUT ── */
-.app{flex:1;display:grid;grid-template-columns:500px 1fr;overflow:hidden;height:calc(100vh - 64px - 48px)}
-@media(max-width:960px){.app{grid-template-columns:1fr;height:auto;overflow:visible}}
+.app{flex:1;display:flex;flex-direction:column;overflow-y:auto;height:calc(100vh - 64px - 48px)}
+.app-top{display:grid;grid-template-columns:520px 1fr;min-height:0;flex:1}
+@media(max-width:960px){.app-top{grid-template-columns:1fr}}
+.app-bottom{border-top:1px solid var(--line);padding:24px 28px 28px;background:var(--bg1)}
 
 /* ── LEFT PANEL ── */
-.pnl-l{border-right:1px solid var(--line);overflow-y:auto;padding:28px 28px 80px;background:var(--bg1)}
+.pnl-l{border-right:1px solid var(--line);overflow-y:auto;padding:28px 28px 28px;background:var(--bg1)}
 .pnl-l::-webkit-scrollbar{width:3px}
 .pnl-l::-webkit-scrollbar-thumb{background:var(--line2);border-radius:2px}
 
@@ -133,7 +135,7 @@ textarea.fi.tall{min-height:260px}
 .btn-gen:active{transform:translateY(0)}
 
 /* ── RIGHT PANEL ── */
-.pnl-r{overflow-y:auto;padding:28px 28px 80px;background:var(--bg2)}
+.pnl-r{overflow-y:auto;padding:28px 28px 28px;background:var(--bg2)}
 .pnl-r::-webkit-scrollbar{width:3px}
 .pnl-r::-webkit-scrollbar-thumb{background:var(--line2);border-radius:2px}
 
@@ -199,6 +201,27 @@ textarea.fi.tall{min-height:260px}
 .slug-reset:hover{background:rgba(181,40,30,.15);color:var(--rl)}
 .slug-url{margin-top:6px;font-family:var(--mono);font-size:.66rem;color:var(--t3);padding:5px 9px;background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .slug-url span{color:var(--al)}
+
+/* Hindi category preset grid */
+.cat-preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:5px;margin-top:8px}
+.cat-preset-btn{
+  font-size:.73rem;padding:5px 10px;border-radius:6px;
+  background:var(--bg4);border:1px solid var(--line2);
+  color:var(--t2);cursor:pointer;transition:all .15s;
+  font-family:var(--deva);text-align:left;line-height:1.4;
+  display:flex;align-items:center;gap:6px;
+}
+.cat-preset-btn:hover{border-color:var(--a);color:var(--al);background:rgba(212,130,10,.08)}
+.cat-preset-btn.used{border-color:rgba(181,40,30,.4);background:rgba(181,40,30,.1);color:var(--rl);opacity:.6;cursor:default}
+.cat-preset-btn .cbullet{width:6px;height:6px;border-radius:50%;background:var(--a);flex-shrink:0}
+
+/* Full-width story section */
+.story-section-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.story-section-label .fl{margin-bottom:0}
+.story-tools{display:flex;gap:6px}
+.stool-btn{font-size:.7rem;padding:4px 10px;border-radius:5px;background:var(--bg3);border:1px solid var(--line2);color:var(--t3);cursor:pointer;transition:all .15s;font-family:var(--body)}
+.stool-btn:hover{border-color:var(--a);color:var(--al)}
+textarea.fi.story-full{min-height:340px;width:100%;font-size:.92rem;line-height:1.85}
 </style>
 </head>
 <body>
@@ -226,6 +249,7 @@ textarea.fi.tall{min-height:260px}
 
 <!-- ═══════ APP ═══════ -->
 <div class="app">
+<div class="app-top">
 
   <!-- LEFT: FORM -->
   <div class="pnl-l">
@@ -265,27 +289,20 @@ textarea.fi.tall{min-height:260px}
       <input id="f-id" class="fi" type="number" min="1" placeholder="e.g. 13">
     </div>
 
-    <!-- Categories — tag style with quick-add -->
+    <!-- Categories + Tags — Hindi presets -->
     <div class="fs">
-      <label class="fl">Categories <span class="req">*</span><span class="hint">type &amp; press Enter, or click quick-add below</span></label>
+      <label class="fl">Categories &amp; Tags <span class="req">*</span><span class="hint">click to add as both category &amp; tag</span></label>
       <div class="chip-wrap" id="cat-wrap">
-        <input id="cat-field" class="chip-field" placeholder="e.g. Romantic Stories">
+        <input id="cat-field" class="chip-field" placeholder="Category लिखें और Enter दबाएं…">
       </div>
-      <div class="suggestions">
-        <span style="font-size:.63rem;color:var(--t3);align-self:center">Quick add:</span>
-        <button class="sug-btn" onclick="addCat('Romantic Stories')">💕 Romantic</button>
-        <button class="sug-btn" onclick="addCat('Desi Stories')">🏡 Desi</button>
-        <button class="sug-btn" onclick="addCat('Bhabhi Stories')">💝 Bhabhi</button>
-        <button class="sug-btn" onclick="addCat('Village Stories')">🌾 Village</button>
-        <button class="sug-btn" onclick="addCat('College Stories')">🎓 College</button>
-      </div>
+      <div class="cat-preset-grid" id="cat-preset-grid"></div>
     </div>
 
-    <!-- Tags -->
+    <!-- Extra Tags -->
     <div class="fs">
-      <label class="fl">Tags<span class="hint">type &amp; press Enter or comma</span></label>
+      <label class="fl">Extra Tags<span class="hint">additional tags · Enter or comma</span></label>
       <div class="chip-wrap" id="tag-wrap">
-        <input id="tag-field" class="chip-field" placeholder="romantic, love, bhabhi…">
+        <input id="tag-field" class="chip-field" placeholder="extra tags…">
       </div>
     </div>
 
@@ -295,17 +312,7 @@ textarea.fi.tall{min-height:260px}
       <textarea id="f-excerpt" class="fi fi-deva" rows="3" placeholder="कहानी का संक्षिप्त विवरण जो कार्ड पर दिखेगा…"></textarea>
     </div>
 
-    <!-- Story body -->
-    <div class="fs">
-      <label class="fl">Full Story Text <span class="req">*</span><span class="hint">each paragraph = new line</span></label>
-      <textarea id="f-body" class="fi fi-deva tall" oninput="onBody()" placeholder="यहाँ अपनी पूरी कहानी लिखें या पेस्ट करें।
 
-हर पैराग्राफ एक नई लाइन पर होना चाहिए।"></textarea>
-      <div class="wc-row">
-        <span class="wc-txt" id="wc">0 words · 0 min read</span>
-        <div class="wc-bar"><div class="wc-fill" id="wc-fill"></div></div>
-      </div>
-    </div>
 
     <!-- Date + Views -->
     <div class="fs">
@@ -362,7 +369,26 @@ textarea.fi.tall{min-height:260px}
 
     </div>
   </div>
+</div><!-- end app-top -->
+
+<!-- Full-width story textarea -->
+<div class="app-bottom">
+  <div class="story-section-label">
+    <label class="fl" for="f-body">Full Story Text <span class="req">*</span><span class="hint">paste your full story · auto-paragraphed on generate</span></label>
+    <div class="story-tools">
+      <button class="stool-btn" onclick="autoPara()">¶ Auto-Paragraph</button>
+      <button class="stool-btn" onclick="clearStory()">✕ Clear</button>
+    </div>
+  </div>
+  <textarea id="f-body" class="fi fi-deva story-full" oninput="onBody()" placeholder="यहाँ अपनी पूरी कहानी लिखें या पेस्ट करें।
+
+कहानी पेस्ट करने के बाद ¶ Auto-Paragraph बटन दबाएं — हर वाक्य अपने पैराग्राफ में अलग हो जाएगा।"></textarea>
+  <div class="wc-row" style="margin-top:8px">
+    <span class="wc-txt" id="wc">0 words · 0 min read</span>
+    <div class="wc-bar" style="width:200px"><div class="wc-fill" id="wc-fill"></div></div>
+  </div>
 </div>
+</div><!-- end app -->
 
 <!-- ═══════ FOOTER ═══════ -->
 <footer class="ftr">
@@ -475,7 +501,7 @@ function initChips({wrapId,fieldId,arr,type}){
   field.addEventListener('blur',()=>{if(field.value.trim()){add(field.value);field.value='';}});
   wrap.addEventListener('click',e=>{
     const rm=e.target.closest('.chip-rm');
-    if(rm){arr.splice(+rm.dataset.i,1);render();return;}
+    if(rm){arr.splice(+rm.dataset.i,1);render();if(typeof renderCatPresets==="function")renderCatPresets();return;}
     field.focus();
   });
 
@@ -483,9 +509,78 @@ function initChips({wrapId,fieldId,arr,type}){
 }
 
 const catChips=initChips({wrapId:'cat-wrap',fieldId:'cat-field',arr:cats,type:'cat'});
-initChips({wrapId:'tag-wrap',fieldId:'tag-field',arr:tags,type:'tag'});
+const tagChips=initChips({wrapId:'tag-wrap',fieldId:'tag-field',arr:tags,type:'tag'});
+renderCatPresets();
 
-function addCat(v){catChips.add(v);document.getElementById('cat-field').focus();}
+/* Hindi preset categories */
+const HINDI_CATS = [
+  'बीवी की चुदाई','कोई देख रहा है','कोई मिल गया','चाची की चुदाई',
+  'चुदाई की कहानी','जवान लड़की','जीजा साली की चुदाई','नौकर-नौकरानी',
+  'पड़ोसी','पहली बार चुदाई','बाप बेटी की चुदाई','बीवी की अदला बदली',
+  'भाई बहन की चुदाई','भाभी की चुदाई','मामी की चुदाई','माँ की चुदाई',
+  'रंडी की चुदाई','रिश्तों में चुदाई','लड़कियों की गांड चुदाई'
+];
+
+function renderCatPresets(){
+  const grid = document.getElementById('cat-preset-grid');
+  grid.innerHTML = HINDI_CATS.map(c => {
+    const used = cats.includes(c);
+    return \`<button class="cat-preset-btn\${used?' used':''}" onclick="addCatPreset('\${c.replace(/'/g,"\\'")}')">
+      <span class="cbullet"></span>\${c}
+    </button>\`;
+  }).join('');
+}
+
+function addCatPreset(v){
+  if(cats.includes(v)) return;
+  catChips.add(v);
+  // Also add as tag (slugified for tag)
+  const tagSlug = v.replace(/\s+/g,'-');
+  if(!tags.includes(tagSlug)) tagChips.add(tagSlug);
+  renderCatPresets();
+}
+
+function addCat(v){
+  catChips.add(v);
+  renderCatPresets();
+  document.getElementById('cat-field').focus();
+}
+
+/* Auto-paragraph: split on sentence endings or double newlines */
+function autoPara(){
+  const el = document.getElementById('f-body');
+  let txt = el.value.trim();
+  if(!txt){toast('Story is empty','err');return;}
+  // Normalise: collapse multiple blank lines
+  txt = txt.replace(/
+{3,}/g, '
+
+');
+  // If already has double newlines, keep them; otherwise split on sentence endings
+  if(!txt.includes('
+
+')){
+    // Split on Hindi/English sentence endings
+    txt = txt
+      .replace(/
+/g,' ')  // flatten single newlines
+      .replace(/([।!?\.]+)\s+/g,'$1
+
+')
+      .trim();
+  }
+  el.value = txt;
+  onBody();
+  toast('¶ Auto-paragraphed!','ok');
+}
+
+function clearStory(){
+  if(!document.getElementById('f-body').value.trim()){return;}
+  if(confirm('Clear the story text?')){
+    document.getElementById('f-body').value='';
+    onBody();
+  }
+}
 
 /* ─── WORD COUNT ─── */
 function onBody(){
