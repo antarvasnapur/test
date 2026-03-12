@@ -1,0 +1,32 @@
+# ============================================================
+# Cloudflare Pages — _redirects
+# Canonical domain: https://www.antarvasnapur.in/
+# Redirect apex → www  (non-www to www)
+# ============================================================
+
+# Apex HTTP + HTTPS → www (canonical)
+http://antarvasnapur.in/*   https://www.antarvasnapur.in/:splat  301
+https://antarvasnapur.in/*  https://www.antarvasnapur.in/:splat  301
+
+# Remove /index.html suffix
+/index.html    /    301
+
+# Clean URLs (no .html extension)
+/about              /about.html              301
+/contact            /contact.html            301
+/privacy-policy     /privacy-policy.html     301
+/privacy            /privacy-policy.html     301
+/disclaimer         /disclaimer.html         301
+/terms              /terms.html              301
+/dmca               /dmca.html               301
+/all-stories        /all-stories.html        301
+/category           /category.html           301
+/tag                /tag.html                301
+/search             /search.html             301
+/sitemap            /sitemap.html            301
+
+# Aliases
+/stories     /all-stories.html    301
+/kahani      /all-stories.html    301
+/categories  /category.html       301
+/tags        /tag.html            301

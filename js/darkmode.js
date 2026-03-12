@@ -1,10 +1,8 @@
-/* ===== DARKMODE.JS ===== */
-// Dark mode is handled in main.js; this file exports helpers
-window.DarkMode = {
-  toggle() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  },
-  isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
-};
+/* darkmode.js — lightweight dark mode (layout.js handles the full init) */
+(function(){
+  const stored = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (stored === 'dark' || (!stored && prefersDark)) {
+    document.documentElement.setAttribute('data-theme','dark');
+  }
+})();

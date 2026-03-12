@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story Generator — Antarvasnapur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&family=Lora:ital,wght@0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --r:#b5281e;--rd:#8c1e15;--rl:#d94034;
+  --a:#d4820a;--al:#e8990f;
+  --g:#1e7a4a;--gl:#25a060;
+  --bg:#090806;--bg1:#110e0a;--bg2:#181310;--bg3:#211a15;--bg4:#2a211a;
+  --line:#2a2118;--line2:#362b22;
+  --t1:#ede8e0;--t2:#a89880;--t3:#6b5c48;
+  --mono:'IBM Plex Mono',monospace;
+  --body:'DM Sans',sans-serif;
+  --head:'Lora',Georgia,serif;
+  --deva:'Noto Sans Devanagari',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--t1);min-height:100vh;display:flex;flex-direction:column;line-height:1.6;font-size:14px}
+
+/* ── HEADER ── */
+.hdr{
+  background:linear-gradient(135deg,#0e0a07 0%,#1a1008 50%,#0e0a07 100%);
+  border-bottom:1px solid var(--line);
+  padding:0 28px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;gap:20px;
+  box-shadow:0 1px 0 rgba(212,130,10,.08),0 4px 20px rgba(0,0,0,.6);
+}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,130,10,.3),transparent)}
+
+.hdr-logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.logo-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--r),#b84010,var(--a));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;box-shadow:0 2px 12px rgba(181,40,30,.5);
+  position:relative;overflow:hidden;
+}
+.logo-icon::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent)}
+.logo-text{display:flex;flex-direction:column;line-height:1.15}
+.logo-text .lname{font-family:var(--head);font-size:1.05rem;font-weight:700;color:var(--t1);letter-spacing:-.01em}
+.logo-text .lname em{color:var(--al);font-style:italic;font-weight:400}
+.logo-text .ltag{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.14em;font-weight:500}
+
+.hdr-mid{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(42,33,24,.6);border:1px solid var(--line2);
+  border-radius:8px;padding:6px 14px;backdrop-filter:blur(4px);
+}
+.hdr-mid .pulse{width:7px;height:7px;border-radius:50%;background:var(--gl);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--gl)}50%{opacity:.3;box-shadow:none}}
+.hdr-mid span{font-size:.72rem;color:var(--t2);font-family:var(--mono)}
+
+.hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.badge{
+  font-size:.65rem;font-weight:700;padding:4px 12px;border-radius:20px;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.badge-tool{background:rgba(181,40,30,.2);border:1px solid rgba(181,40,30,.4);color:var(--rl)}
+.badge-local{background:rgba(42,33,24,.8);border:1px solid var(--line2);color:var(--t3)}
+
+/* ── LAYOUT ── */
+.app{flex:1;display:grid;grid-template-columns:500px 1fr;overflow:hidden;height:calc(100vh - 64px - 48px)}
+@media(max-width:960px){.app{grid-template-columns:1fr;height:auto;overflow:visible}}
+
+/* ── LEFT PANEL ── */
+.pnl-l{border-right:1px solid var(--line);overflow-y:auto;padding:28px 28px 80px;background:var(--bg1)}
+.pnl-l::-webkit-scrollbar{width:3px}
+.pnl-l::-webkit-scrollbar-thumb{background:var(--line2);border-radius:2px}
+
+.pnl-title{font-family:var(--head);font-size:1.3rem;font-weight:700;color:var(--t1);margin-bottom:3px}
+.pnl-sub{font-size:.78rem;color:var(--t3);margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:22px;border:1px solid var(--line2);border-radius:9px;overflow:hidden}
+.step{padding:10px 8px;background:var(--bg3);text-align:center;font-size:.63rem;color:var(--t3);line-height:1.4;border-right:1px solid var(--line)}
+.step:last-child{border-right:none}
+.step .snum{width:18px;height:18px;background:linear-gradient(135deg,var(--r),var(--a));color:#fff;border-radius:50%;font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 5px}
+
+/* Form */
+.fs{margin-bottom:18px}
+.fs+.fs{padding-top:18px;border-top:1px solid var(--line)}
+.fl{display:block;font-size:.67rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.fl .req{color:var(--rl);margin-left:2px}
+.fl .hint{color:var(--t3);font-size:.64rem;font-weight:400;text-transform:none;letter-spacing:0;margin-left:6px;opacity:.75}
+
+.fi{width:100%;padding:10px 13px;background:var(--bg3);border:1px solid var(--line2);border-radius:7px;color:var(--t1);font-size:.88rem;font-family:var(--body);outline:none;transition:border-color .18s,box-shadow .18s;appearance:none}
+.fi:focus{border-color:var(--r);box-shadow:0 0 0 3px rgba(181,40,30,.14)}
+.fi-deva{font-family:var(--deva)}
+textarea.fi{resize:vertical;min-height:80px;line-height:1.75}
+textarea.fi.tall{min-height:260px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Slug bar */
+.slug-bar{margin-top:7px;display:flex;align-items:center;gap:7px;padding:6px 10px;background:var(--bg);border:1px solid var(--line);border-radius:5px;font-family:var(--mono);font-size:.67rem;color:var(--t3);overflow:hidden}
+.slug-bar .sv{color:var(--al);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Chip input */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:7px 9px;background:var(--bg3);border:1px solid var(--line2);border-radius:7px;cursor:text;min-height:44px;align-items:center;transition:border-color .18s,box-shadow .18s}
+.chip-wrap:focus-within{border-color:var(--r);box-shadow:0 0 0 3px rgba(181,40,30,.14)}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:500;white-space:nowrap}
+.chip-cat{background:rgba(212,130,10,.15);border:1px solid rgba(212,130,10,.3);color:var(--al)}
+.chip-tag{background:rgba(181,40,30,.12);border:1px solid rgba(181,40,30,.25);color:#e06060}
+.chip-rm{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.95rem;line-height:1;padding:0;display:flex;align-items:center;transition:color .12s}
+.chip-rm:hover{color:var(--rl)}
+.chip-field{border:none;background:transparent;outline:none;font-size:.83rem;color:var(--t1);min-width:130px;flex:1;padding:2px 4px;font-family:var(--body)}
+
+/* Quick-add suggestions */
+.suggestions{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.sug-btn{font-size:.68rem;padding:3px 10px;border-radius:20px;background:var(--bg4);border:1px dashed var(--line2);color:var(--t3);cursor:pointer;transition:all .15s;font-family:var(--body)}
+.sug-btn:hover{border-color:var(--a);color:var(--al);background:rgba(212,130,10,.08)}
+
+/* Word count */
+.wc-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.wc-txt{font-size:.67rem;color:var(--t3);font-family:var(--mono)}
+.wc-bar{width:110px;height:3px;background:var(--line2);border-radius:2px;overflow:hidden}
+.wc-fill{height:100%;background:linear-gradient(90deg,var(--r),var(--a));border-radius:2px;transition:width .3s;width:0}
+
+/* Generate button */
+.btn-gen{
+  width:100%;padding:14px 20px;
+  background:linear-gradient(135deg,var(--r) 0%,#b84010 50%,var(--a) 100%);
+  color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;
+  font-family:var(--body);cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:22px;letter-spacing:.01em;
+  box-shadow:0 4px 18px rgba(181,40,30,.35),0 1px 0 rgba(255,255,255,.08) inset;
+}
+.btn-gen:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(181,40,30,.5)}
+.btn-gen:active{transform:translateY(0)}
+
+/* ── RIGHT PANEL ── */
+.pnl-r{overflow-y:auto;padding:28px 28px 80px;background:var(--bg2)}
+.pnl-r::-webkit-scrollbar{width:3px}
+.pnl-r::-webkit-scrollbar-thumb{background:var(--line2);border-radius:2px}
+
+.out-empty{height:100%;min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;color:var(--t3)}
+.out-empty-ico{width:70px;height:70px;background:var(--bg3);border:1px solid var(--line2);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.out-empty h3{font-family:var(--head);font-size:1rem;color:var(--t2)}
+.out-empty p{font-size:.79rem;max-width:220px;line-height:1.6}
+
+.out-sec{margin-bottom:26px}
+.out-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.out-lbl{display:flex;align-items:center;gap:7px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
+.out-file{font-family:var(--mono);font-size:.66rem;padding:2px 8px;background:var(--bg4);border:1px solid var(--line2);border-radius:4px;color:var(--a)}
+.out-btns{display:flex;gap:6px;flex-wrap:wrap}
+
+.abtn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--body);white-space:nowrap}
+.abtn-red{background:var(--r);border:1px solid var(--r);color:#fff}
+.abtn-red:hover{background:var(--rd)}
+.abtn-amber{background:transparent;border:1px solid var(--a);color:var(--al)}
+.abtn-amber:hover{background:rgba(212,130,10,.12)}
+.abtn-green{background:transparent;border:1px solid var(--g);color:var(--gl)}
+.abtn-green:hover{background:rgba(30,122,74,.1)}
+
+.code-out{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:var(--mono);font-size:.67rem;line-height:1.8;color:#90b890;overflow:auto;max-height:320px;white-space:pre;tab-size:2}
+.code-out.json{color:#6dbcd4}
+.out-note{margin-top:7px;font-size:.7rem;color:var(--t3);line-height:1.5}
+.out-note code{font-family:var(--mono);font-size:.67rem;color:var(--a);background:var(--bg3);padding:1px 5px;border-radius:3px}
+
+/* ── FOOTER ── */
+.ftr{
+  background:linear-gradient(135deg,#0c0905,#130f0a,#0c0905);
+  border-top:1px solid var(--line);height:48px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;gap:14px;flex-shrink:0;
+  box-shadow:0 -1px 0 rgba(212,130,10,.06);
+  position:relative;
+}
+.ftr::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,130,10,.2),transparent)}
+
+.ftr-l{display:flex;align-items:center;gap:12px;font-size:.68rem;color:var(--t3)}
+.ftr-brand{display:flex;align-items:center;gap:6px;font-family:var(--head);font-size:.8rem;color:var(--t2)}
+.ftr-brand em{color:var(--al);font-style:italic}
+.ftr-sep{color:var(--line2)}
+.kbd-hint{display:inline-flex;align-items:center;gap:4px;font-size:.63rem}
+.kbd{background:var(--bg3);border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:1px 6px;font-family:var(--mono);font-size:.6rem;color:var(--t2)}
+
+.ftr-r{display:flex;align-items:center;gap:8px;font-size:.66rem;color:var(--t3)}
+.ftr-dot{width:6px;height:6px;border-radius:50%;background:var(--gl);box-shadow:0 0 6px var(--gl)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:64px;right:24px;padding:11px 18px;border-radius:9px;font-size:.82rem;font-weight:600;z-index:9999;transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.7);max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:#0f2e1a;border:1px solid var(--g);color:#6ee09a}
+.toast.err{background:#2e0f0f;border:1px solid var(--r);color:#f08080}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="hdr">
+  <a class="hdr-logo" href="#" onclick="return false">
+    <div class="logo-icon">📖</div>
+    <div class="logo-text">
+      <span class="lname">Antarvas<em>napur</em></span>
+      <span class="ltag">Story CMS</span>
+    </div>
+  </a>
+
+  <div class="hdr-mid">
+    <span class="pulse"></span>
+    <span>Story Generator v2.0</span>
+  </div>
+
+  <div class="hdr-right">
+    <span class="badge badge-tool">⚙ Admin Tool</span>
+    <span class="badge badge-local">🔒 Local Only</span>
+  </div>
+</header>
+
+<!-- ═══════ APP ═══════ -->
+<div class="app">
+
+  <!-- LEFT: FORM -->
+  <div class="pnl-l">
+    <div>
+      <h2 class="pnl-title">New Story</h2>
+      <p class="pnl-sub">Fill the form → Generate → copy files into your repo</p>
+    </div>
+
+    <div class="steps">
+      <div class="step"><span class="snum">1</span>Fill &amp; Generate</div>
+      <div class="step"><span class="snum">2</span>Download .html → stories/</div>
+      <div class="step"><span class="snum">3</span>Paste JSON into stories.json</div>
+      <div class="step"><span class="snum">4</span>git push → live!</div>
+    </div>
+
+    <!-- Title -->
+    <div class="fs">
+      <label class="fl">Story Title <span class="req">*</span><span class="hint">in Hindi (Devanagari)</span></label>
+      <input id="f-title" class="fi fi-deva" type="text" placeholder="जैसे: देसी भाभी की प्रेम कहानी" autocomplete="off" oninput="onTitle()">
+      <div class="slug-bar">🔗&nbsp;<span class="sv" id="slug-val">slug will appear here…</span></div>
+    </div>
+
+    <!-- Story ID -->
+    <div class="fs">
+      <label class="fl">Story ID <span class="req">*</span><span class="hint">unique number — next after your last story</span></label>
+      <input id="f-id" class="fi" type="number" min="1" placeholder="e.g. 13">
+    </div>
+
+    <!-- Categories — tag style with quick-add -->
+    <div class="fs">
+      <label class="fl">Categories <span class="req">*</span><span class="hint">type &amp; press Enter, or click quick-add below</span></label>
+      <div class="chip-wrap" id="cat-wrap">
+        <input id="cat-field" class="chip-field" placeholder="e.g. Romantic Stories">
+      </div>
+      <div class="suggestions">
+        <span style="font-size:.63rem;color:var(--t3);align-self:center">Quick add:</span>
+        <button class="sug-btn" onclick="addCat('Romantic Stories')">💕 Romantic</button>
+        <button class="sug-btn" onclick="addCat('Desi Stories')">🏡 Desi</button>
+        <button class="sug-btn" onclick="addCat('Bhabhi Stories')">💝 Bhabhi</button>
+        <button class="sug-btn" onclick="addCat('Village Stories')">🌾 Village</button>
+        <button class="sug-btn" onclick="addCat('College Stories')">🎓 College</button>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="fs">
+      <label class="fl">Tags<span class="hint">type &amp; press Enter or comma</span></label>
+      <div class="chip-wrap" id="tag-wrap">
+        <input id="tag-field" class="chip-field" placeholder="romantic, love, bhabhi…">
+      </div>
+    </div>
+
+    <!-- Excerpt -->
+    <div class="fs">
+      <label class="fl">Excerpt <span class="req">*</span><span class="hint">shown on story cards (1–2 sentences)</span></label>
+      <textarea id="f-excerpt" class="fi fi-deva" rows="3" placeholder="कहानी का संक्षिप्त विवरण जो कार्ड पर दिखेगा…"></textarea>
+    </div>
+
+    <!-- Story body -->
+    <div class="fs">
+      <label class="fl">Full Story Text <span class="req">*</span><span class="hint">each paragraph = new line</span></label>
+      <textarea id="f-body" class="fi fi-deva tall" oninput="onBody()" placeholder="यहाँ अपनी पूरी कहानी लिखें या पेस्ट करें।
+
+हर पैराग्राफ एक नई लाइन पर होना चाहिए।"></textarea>
+      <div class="wc-row">
+        <span class="wc-txt" id="wc">0 words · 0 min read</span>
+        <div class="wc-bar"><div class="wc-fill" id="wc-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Date + Views -->
+    <div class="fs">
+      <div class="row2">
+        <div><label class="fl">Publish Date</label><input id="f-date" class="fi" type="text" placeholder="2024-03-20"></div>
+        <div><label class="fl">Initial Views</label><input id="f-views" class="fi" type="number" min="0" value="0"></div>
+      </div>
+    </div>
+
+    <button class="btn-gen" onclick="generate()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Generate Files
+    </button>
+  </div>
+
+  <!-- RIGHT: OUTPUT -->
+  <div class="pnl-r" id="pnl-r">
+    <div id="out-empty" class="out-empty">
+      <div class="out-empty-ico">⚡</div>
+      <h3>Files appear here</h3>
+      <p>Fill the form and click <strong>Generate Files</strong></p>
+    </div>
+
+    <div id="out-content" style="display:none">
+
+      <div class="out-sec">
+        <div class="out-hd">
+          <div class="out-lbl">Story HTML <span class="out-file" id="out-fname">stories/slug.html</span></div>
+          <div class="out-btns">
+            <button class="abtn abtn-green" onclick="dlHTML()">⬇ Download</button>
+            <button class="abtn abtn-red" onclick="cpHTML()">📋 Copy</button>
+          </div>
+        </div>
+        <div class="code-out" id="out-html"></div>
+      </div>
+
+      <div class="out-sec">
+        <div class="out-hd">
+          <div class="out-lbl">JSON Entry <span class="out-file">data/stories.json</span></div>
+          <div class="out-btns"><button class="abtn abtn-amber" onclick="cpJSON()">📋 Copy JSON</button></div>
+        </div>
+        <div class="code-out json" id="out-json"></div>
+        <p class="out-note">Paste inside <code>"stories": [...]</code> array in <code>data/stories.json</code></p>
+      </div>
+
+      <div class="out-sec">
+        <div class="out-hd">
+          <div class="out-lbl">Sitemap Entry <span class="out-file">sitemap.xml</span></div>
+          <div class="out-btns"><button class="abtn abtn-amber" onclick="cpSitemap()">📋 Copy</button></div>
+        </div>
+        <div class="code-out json" id="out-sitemap"></div>
+        <p class="out-note">Paste inside <code>&lt;urlset&gt;</code> in <code>sitemap.xml</code></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="ftr">
+  <div class="ftr-l">
+    <span class="ftr-brand">Antarvas<em>napur</em></span>
+    <span class="ftr-sep">·</span>
+    <span class="kbd-hint"><kbd class="kbd">Enter</kbd> add tag / category</span>
+    <span class="ftr-sep">·</span>
+    <span class="kbd-hint"><kbd class="kbd">Backspace</kbd> remove last</span>
+    <span class="ftr-sep">·</span>
+    <span class="kbd-hint"><kbd class="kbd">Comma</kbd> also adds</span>
+  </div>
+  <div class="ftr-r">
+    <span class="ftr-dot"></span>
+    Private admin tool — do not deploy to website
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─── STATE ─── */
+const cats=[], tags=[];
+let genHTML='', genSlug='';
+
+/* ─── INIT date ─── */
+(()=>{
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  document.getElementById('f-date').value=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+})();
+
+/* ─── SLUG ─── */
+const HI={
+  'की':'ki','का':'ka','के':'ke','में':'mein','है':'hai','और':'aur','से':'se','पर':'par',
+  'को':'ko','ने':'ne','यह':'yeh','वह':'woh','एक':'ek','प्यार':'pyar','मोहब्बत':'mohabbat',
+  'कहानी':'kahani','भाभी':'bhabhi','गाँव':'gaon','कॉलेज':'college','देसी':'desi',
+  'रात':'raat','दिन':'din','पहला':'pehla','पहली':'pehli','नई':'nayi','नया':'naya',
+  'जिंदगी':'zindagi','यादें':'yaadein','दोस्त':'dost','दोस्ती':'dosti','प्रेम':'prem',
+  'शादी':'shadi','घर':'ghar','राजा':'raja','रानी':'rani','बारिश':'barish','सपना':'sapna',
+};
+function slugify(t){
+  let s=t.trim();
+  Object.entries(HI).forEach(([h,e])=>s=s.replace(new RegExp(h,'g'),' '+e+' '));
+  return s.replace(/[\u0900-\u097F]+/g,'').toLowerCase()
+    .replace(/[^a-z0-9\s-]/g,'').trim()
+    .replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-+|-+$/g,'')
+    ||'story-'+Date.now();
+}
+function onTitle(){
+  const v=document.getElementById('f-title').value;
+  genSlug=slugify(v);
+  document.getElementById('slug-val').textContent=genSlug?'stories/'+genSlug+'.html':'slug will appear here…';
+}
+
+/* ─── CHIP INPUT ENGINE ─── */
+function initChips({wrapId,fieldId,arr,type}){
+  const wrap=document.getElementById(wrapId);
+  const field=document.getElementById(fieldId);
+  const ph=field.placeholder;
+
+  function render(){
+    wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+    arr.forEach((v,i)=>{
+      const c=document.createElement('span');
+      c.className='chip chip-'+type;
+      c.innerHTML=v+' <button class="chip-rm" data-i="'+i+'">×</button>';
+      wrap.insertBefore(c,field);
+    });
+    field.placeholder=arr.length?'':ph;
+  }
+
+  function add(raw){
+    const v=raw.trim().replace(/,+$/,'').trim();
+    if(!v)return;
+    if(arr.includes(v)){toast('Already added: '+v,'err');return;}
+    if(arr.length>=15){toast('Max 15 items','err');return;}
+    arr.push(v);render();
+  }
+
+  field.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===','){e.preventDefault();add(field.value);field.value='';}
+    if(e.key==='Backspace'&&!field.value&&arr.length){arr.splice(arr.length-1,1);render();}
+  });
+  field.addEventListener('blur',()=>{if(field.value.trim()){add(field.value);field.value='';}});
+  wrap.addEventListener('click',e=>{
+    const rm=e.target.closest('.chip-rm');
+    if(rm){arr.splice(+rm.dataset.i,1);render();return;}
+    field.focus();
+  });
+
+  return{add,render};
+}
+
+const catChips=initChips({wrapId:'cat-wrap',fieldId:'cat-field',arr:cats,type:'cat'});
+initChips({wrapId:'tag-wrap',fieldId:'tag-field',arr:tags,type:'tag'});
+
+function addCat(v){catChips.add(v);document.getElementById('cat-field').focus();}
+
+/* ─── WORD COUNT ─── */
+function onBody(){
+  const txt=document.getElementById('f-body').value.trim();
+  const w=txt?txt.split(/\s+/).filter(Boolean).length:0;
+  const m=Math.max(1,Math.ceil(w/200));
+  document.getElementById('wc').textContent=w.toLocaleString()+' words · '+m+' min read';
+  document.getElementById('wc-fill').style.width=Math.min(100,(w/3000)*100)+'%';
+}
+
+/* ─── HELPERS ─── */
+function fmtHindi(s){try{return new Date(s).toLocaleDateString('hi-IN',{year:'numeric',month:'long',day:'numeric'});}catch{return s;}}
+function toParas(txt){return txt.split(/\n/).map(p=>p.trim()).filter(Boolean).map(p=>'      <p>'+p+'</p>').join('\n');}
+
+/* ─── GENERATE ─── */
+function generate(){
+  // flush pending field values
+  ['cat-field','tag-field'].forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim())el.dispatchEvent(new Event('blur'));});
+
+  const title=document.getElementById('f-title').value.trim();
+  const sid=document.getElementById('f-id').value.trim();
+  const excerpt=document.getElementById('f-excerpt').value.trim();
+  const body=document.getElementById('f-body').value.trim();
+  const date=document.getElementById('f-date').value.trim();
+  const views=parseInt(document.getElementById('f-views').value)||0;
+
+  const errs=[];
+  if(!title)errs.push('Story Title is required');
+  if(!sid)errs.push('Story ID is required');
+  if(!cats.length)errs.push('Add at least one Category');
+  if(!excerpt)errs.push('Excerpt is required');
+  if(!body)errs.push('Story Text is required');
+  if(errs.length){toast('⚠ '+errs[0],'err');return;}
+
+  const slug=slugify(title);
+  const words=body.split(/\s+/).filter(Boolean).length;
+  const mins=Math.max(1,Math.ceil(words/200));
+  const id=parseInt(sid);
+  genSlug=slug;
+
+  genHTML=buildHTML({title,slug,id,cats:[...cats],tags:[...tags],excerpt,body,date,views,readingTime:mins+' min',firstCat:cats[0],words});
+
+  const json={id,title,slug,categories:[...cats],tags:[...tags],date,views,rating:0,excerpt,readingTime:mins+' min',wordCount:words};
+  const sitemap=`  <url>\n    <loc>https://www.antarvasnapur.in/stories/${slug}.html</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n    <lastmod>${date}</lastmod>\n  </url>`;
+
+  document.getElementById('out-empty').style.display='none';
+  document.getElementById('out-content').style.display='block';
+  document.getElementById('out-fname').textContent='stories/'+slug+'.html';
+
+  const lines=genHTML.split('\n');
+  document.getElementById('out-html').textContent=lines.slice(0,60).join('\n')+(lines.length>60?'\n  … ('+(lines.length-60)+' more lines — Download for full file)':'');
+  document.getElementById('out-json').textContent=JSON.stringify(json,null,2);
+  document.getElementById('out-sitemap').textContent=sitemap;
+
+  document.getElementById('pnl-r').scrollTo({top:0,behavior:'smooth'});
+  toast('✓ Files generated — download or copy below!','ok');
+}
+
+/* ─── HTML BUILDER ─── */
+function buildHTML({title,slug,id,cats,tags,excerpt,body,date,views,readingTime,firstCat,words}){
+  const catBadges=cats.map(c=>`<a href="/category.html?c=${encodeURIComponent(c)}" class="cat-badge">${c}</a>`).join('\n      ');
+  const tagLinks=tags.map(t=>`<a href="/tag.html?t=${encodeURIComponent(t)}" class="tag-chip">${t}</a>`).join('\n        ');
+  const schema=cats.map(c=>`{"@type":"Thing","name":"${c}"}`).join(',');
+  const firstEnc=encodeURIComponent(firstCat).replace(/%20/g,'+');
+  const dateHi=fmtHindi(date);
+  const paras=toParas(body);
+
+  return `<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} - Antarvasnapur</title>
+<meta name="description" content="${excerpt.replace(/"/g,'&quot;')}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.antarvasnapur.in/stories/${slug}.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${title} - Antarvasnapur">
+<meta property="og:description" content="${excerpt.replace(/"/g,'&quot;')}">
+<meta property="og:url" content="https://www.antarvasnapur.in/stories/${slug}.html">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"${title.replace(/"/g,'\\"')}","description":"${excerpt.replace(/"/g,'\\"')}","url":"https://www.antarvasnapur.in/stories/${slug}.html","datePublished":"${date}","author":{"@type":"Organization","name":"Antarvasnapur"},"publisher":{"@type":"Organization","name":"Antarvasnapur","url":"https://www.antarvasnapur.in"},"about":[${schema}]}<\/script>
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/darkmode.js"><\/script>
+</head>
+<body data-story-id="${id}" data-story-slug="${slug}">
+<div id="reading-progress"></div>
+<div class="notice-bar">⚠️ Adult content (18+). By continuing you confirm you are 18+.</div>
+
+<main class="container" style="padding-bottom:60px">
+  <nav class="breadcrumb">
+    <a href="/">Home</a><span class="breadcrumb-sep">›</span>
+    <a href="/category.html?c=${firstEnc}">${firstCat}</a><span class="breadcrumb-sep">›</span>
+    <span>${title}</span>
+  </nav>
+
+  <article>
+    <div class="story-card-cats" style="margin-bottom:12px">
+      ${catBadges}
+    </div>
+    <h1 class="story-title">${title}</h1>
+
+    <div class="story-meta-bar">
+      <span class="story-meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        ${dateHi}
+      </span>
+      <span class="story-meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        ${readingTime} read
+      </span>
+      <span class="story-meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        ${views.toLocaleString()} views
+      </span>
+      <span class="story-rating">☆☆☆☆☆ 0.0</span>
+    </div>
+
+    <div class="story-content">
+${paras}
+    </div>
+
+    <div class="story-actions">
+      <div id="rating-widget" data-story-id="${id}" style="display:flex;align-items:center;gap:4px">
+        <button class="star-btn" data-val="1">☆</button>
+        <button class="star-btn" data-val="2">☆</button>
+        <button class="star-btn" data-val="3">☆</button>
+        <button class="star-btn" data-val="4">☆</button>
+        <button class="star-btn" data-val="5">☆</button>
+      </div>
+      <button class="bookmark-btn" data-bookmark-btn="${id}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="bm-label">Bookmark</span>
+      </button>
+    </div>
+
+    <div class="story-tags-section">
+      <p class="story-tags-label">Tags</p>
+      <div class="story-card-tags">
+        ${tagLinks||'<span style="color:var(--text-l);font-size:.8rem">No tags</span>'}
+      </div>
+    </div>
+  </article>
+
+  <section style="margin-top:40px">
+    <div class="section-header">
+      <h2 class="section-title">Related Stories</h2>
+      <a href="/all-stories.html" class="view-all">View All →</a>
+    </div>
+    <div id="related-stories"></div>
+  </section>
+
+  <section style="margin-top:32px">
+    <div class="section-header"><h2 class="section-title">You May Also Like</h2></div>
+    <div id="recommendations"></div>
+  </section>
+</main>
+
+<script src="/js/layout.js"><\/script>
+<script src="/js/main.js"><\/script>
+<script src="/js/progress.js"><\/script>
+<script src="/js/rating.js"><\/script>
+<script src="/js/bookmarks.js"><\/script>
+<script src="/js/related.js"><\/script>
+<script src="/js/recommendations.js"><\/script>
+<script src="/js/internal-links.js"><\/script>
+<script src="/js/analytics.js"><\/script>
+<script>document.addEventListener('DOMContentLoaded',()=>window.SITE.trackView(${id}));<\/script>
+</body>
+</html>`;
+}
+
+/* ─── COPY / DOWNLOAD ─── */
+function cpHTML(){cp(genHTML,'✓ HTML copied!');}
+function cpJSON(){cp(document.getElementById('out-json').textContent,'✓ JSON copied!');}
+function cpSitemap(){cp(document.getElementById('out-sitemap').textContent,'✓ Sitemap copied!');}
+function cp(t,msg){if(!t){toast('Generate first','err');return;}navigator.clipboard.writeText(t).then(()=>toast(msg,'ok'));}
+function dlHTML(){
+  if(!genHTML){toast('Generate first','err');return;}
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([genHTML],{type:'text/html;charset=utf-8'})),download:genSlug+'.html'});
+  a.click();URL.revokeObjectURL(a.href);
+  toast('⬇ Downloaded '+genSlug+'.html','ok');
+}
+
+/* ─── TOAST ─── */
+let _tt;
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast '+type+' show';
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>

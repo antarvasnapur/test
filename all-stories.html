@@ -1,217 +1,120 @@
 <!DOCTYPE html>
 <html lang="hi" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Stories - Antarvasnapur | सभी कहानियाँ</title>
-  <meta name="description" content="Browse all Hindi stories on Antarvasnapur. Filter by category, sort by latest, trending, or most viewed.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://antarvasnapur.in/all-stories.html">
-  <meta property="og:title" content="All Stories - Antarvasnapur">
-  <meta property="og:url" content="https://antarvasnapur.in/all-stories.html">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Stories - Antarvasnapur | सभी कहानियाँ</title>
+<meta name="description" content="Browse all Hindi stories on Antarvasnapur — romantic, desi, village, bhabhi and college stories.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.antarvasnapur.in/all-stories.html">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/darkmode.js"></script>
 </head>
 <body data-page="all-stories">
 <div id="reading-progress"></div>
 <div class="notice-bar">⚠️ Adult content (18+). By continuing you confirm you are 18+.</div>
-
-<header class="site-header">
-  <div class="header-inner">
-    <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
-    <nav class="header-nav">
-      <a href="index.html">Home</a>
-      <a href="all-stories.html" class="active">All Stories</a>
-      <a href="category.html">Categories</a>
-      <a href="tag.html">Tags</a>
-      <a href="about.html">About</a>
-    </nav>
-    <div class="header-search">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="header-search-input" placeholder="Search stories..." autocomplete="off">
-    </div>
-    <div class="header-actions">
-      <button class="btn-icon" data-dark-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
-        <svg class="dm-icon-moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="dm-icon-sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/></svg>
-      </button>
-      <button class="btn-icon hamburger" id="mobile-menu-open" aria-label="Open menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
-
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mobile-menu-overlay"></div>
-  <div class="mobile-menu-panel">
-    <div class="mobile-menu-header">
-      <span class="site-logo">Antarvas<span>napur</span></span>
-      <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <!-- Mobile search -->
-    <div style="margin-bottom:14px;position:relative">
-      <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-light);width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="mobile-search-input" type="search" placeholder="Search stories..." autocomplete="off"
-        style="width:100%;padding:9px 13px 9px 32px;border:1px solid var(--border);border-radius:20px;background:var(--bg-secondary);color:var(--text);font-size:0.88rem;outline:none;font-family:var(--font-hindi)">
-    </div>
-    <nav class="mobile-nav">
-      <a href="index.html">🏠 Home</a>
-      <a href="all-stories.html">📚 All Stories</a>
-      <a href="category.html">🗂️ Categories</a>
-      <a href="tag.html">🏷️ Tags</a>
-      <a href="search.html">🔍 Search</a>
-      <div class="mobile-nav-divider"></div>
-      <a href="about.html">ℹ️ About</a>
-      <a href="contact.html">✉️ Contact</a>
-    </nav>
-  </div>
-</div>
-
-<div class="page-banner">
-  <h1>All Stories</h1>
-  <p>Browse our complete collection of Hindi stories</p>
-</div>
+<div class="page-banner"><h1>All Stories</h1><p id="stories-total">Browse our complete collection of Hindi stories</p></div>
 
 <main class="container" style="padding-bottom:60px">
 
-  <!-- Sort Controls -->
-  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:24px;margin-bottom:16px">
-    <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;white-space:nowrap">Sort by:</span>
+  <!-- Sort buttons -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:24px;margin-bottom:12px">
+    <span style="font-size:.8rem;color:var(--text-m);font-weight:600;white-space:nowrap">Sort:</span>
     <button class="cat-filter-btn active" data-sort="latest">Latest</button>
     <button class="cat-filter-btn" data-sort="trending">Trending</button>
     <button class="cat-filter-btn" data-sort="views">Most Viewed</button>
     <button class="cat-filter-btn" data-sort="rating">Top Rated</button>
   </div>
 
-  <!-- Category Filter (auto-generated) -->
+  <!-- Category filter -->
   <div class="categories-filter" id="cat-filter-bar"></div>
 
-  <!-- Stories Grid -->
+  <!-- Grid -->
   <div id="all-stories-grid" class="stories-grid"></div>
+
+  <!-- Pagination -->
   <div id="all-stories-pagination" class="pagination"></div>
 
 </main>
 
-<footer class="site-footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <a href="index.html" class="site-logo">Antarvas<span>napur</span></a>
-      <p>सर्वश्रेष्ठ हिंदी कहानियाँ पढ़ें।</p>
-    </div>
-    <div class="footer-col">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="all-stories.html">All Stories</a></li>
-        <li><a href="category.html">Categories</a></li>
-        <li><a href="sitemap.html">Sitemap</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="dmca.html">DMCA</a></li>
-        <li><a href="disclaimer.html">Disclaimer</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2024 Antarvasnapur. All rights reserved.</p>
-    <div class="footer-legal">
-      <a href="privacy-policy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="dmca.html">DMCA</a>
-    </div>
-  </div>
-</footer>
-
-<button id="back-to-top" title="Back to top" aria-label="Back to top">
-  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
-</button>
-
-<script src="js/main.js"></script>
-<script src="js/pagination.js"></script>
-<script src="js/darkmode.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/analytics.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/analytics.js"></script>
 <script>
-let allStories = [], activeSort = 'latest', activeCategory = '', pager;
+(function () {
+  'use strict';
 
-function getSorted(stories, sort) {
-  const s = [...stories];
-  if (sort === 'views' || sort === 'trending') return s.sort((a, b) => b.views - a.views);
-  if (sort === 'rating') return s.sort((a, b) => b.rating - a.rating);
-  return s.sort((a, b) => new Date(b.date) - new Date(a.date));
-}
+  let allStories = [];
+  let activeSort = 'latest';
+  let activeCat  = '';
+  let pager;
 
-function applyFilters() {
-  let filtered = allStories;
-  if (activeCategory) filtered = filtered.filter(s => (s.categories || []).includes(activeCategory));
-  pager.setItems(getSorted(filtered, activeSort));
-}
+  function getSorted(stories, sort) {
+    const a = [...stories];
+    if (sort === 'views' || sort === 'trending') return a.sort((a, b) => b.views - a.views);
+    if (sort === 'rating') return a.sort((a, b) => b.rating - a.rating);
+    return a.sort((a, b) => new Date(b.date) - new Date(a.date));
+  }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  allStories = await window.SITE.loadStories();
+  function applyFilters() {
+    let filtered = activeCat
+      ? allStories.filter(s => (s.categories || []).includes(activeCat))
+      : allStories;
+    pager.setItems(getSorted(filtered, activeSort));
+    const totalEl = document.getElementById('stories-total');
+    if (totalEl) totalEl.textContent = filtered.length + ' stories';
+  }
 
-  // Build category filter bar
-  const cats = window.SITE.extractCategories(allStories);
-  const filterBar = document.getElementById('cat-filter-bar');
-  if (filterBar) {
-    filterBar.innerHTML = `<button class="cat-filter-btn active" data-cat="">All</button>` +
-      cats.map(([c]) => `<button class="cat-filter-btn" data-cat="${c}">${c}</button>`).join('');
-    filterBar.querySelectorAll('[data-cat]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBar.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+  document.addEventListener('DOMContentLoaded', async () => {
+    allStories = await window.SITE.loadStories();
+
+    /* Build category filter bar */
+    const bar = document.getElementById('cat-filter-bar');
+    if (bar) {
+      const cats = window.SITE.extractCategories(allStories);
+      bar.innerHTML = '<button class="cat-filter-btn active" data-cat="">All</button>' +
+        cats.map(([c]) => `<button class="cat-filter-btn" data-cat="${c}">${c}</button>`).join('');
+
+      bar.addEventListener('click', e => {
+        const btn = e.target.closest('[data-cat]');
+        if (!btn) return;
+        bar.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        activeCategory = btn.dataset.cat;
+        activeCat = btn.dataset.cat;
+        applyFilters();
+      });
+    }
+
+    /* Sort buttons */
+    document.querySelectorAll('[data-sort]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeSort = btn.dataset.sort;
         applyFilters();
       });
     });
-  }
 
-  pager = new Paginator({
-    containerId: 'all-stories-grid',
-    paginationId: 'all-stories-pagination',
-    items: [],
-    perPage: 12,
-    renderFn: s => window.SITE.buildStoryCard(s, '')
-  });
-  applyFilters();
-
-  // Sort buttons
-  document.querySelectorAll('[data-sort]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-sort]').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeSort = btn.dataset.sort;
-      applyFilters();
+    /* Create paginator */
+    pager = new Paginator({
+      containerId:  'all-stories-grid',
+      paginationId: 'all-stories-pagination',
+      items:        [],
+      perPage:      12,
+      renderFn:     s => window.SITE.buildStoryCard(s)
     });
+
+    /* Apply URL param for sort */
+    const urlSort = new URLSearchParams(window.location.search).get('sort');
+    if (urlSort) {
+      const btn = document.querySelector(`[data-sort="${urlSort}"]`);
+      if (btn) { btn.dispatchEvent(new Event('click')); return; }
+    }
+
+    applyFilters();
   });
-
-  // Handle ?sort= URL param
-  const urlSort = new URLSearchParams(window.location.search).get('sort');
-  if (urlSort) {
-    const btn = document.querySelector(`[data-sort="${urlSort}"]`);
-    if (btn) btn.click();
-  }
-
-  // Mobile search
-  const mobileSearch = document.getElementById('mobile-search-input');
-  if (mobileSearch) {
-    mobileSearch.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        const q = mobileSearch.value.trim();
-        const base = window.SITE ? window.SITE.getBasePath() : '';
-        if (q) window.location.href = base + 'search.html?q=' + encodeURIComponent(q);
-      }
-    });
-  }
-});
+})();
 </script>
 </body>
 </html>

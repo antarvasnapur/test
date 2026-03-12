@@ -1,87 +1,87 @@
-/* ===== PAGINATION.JS ===== */
+/* ============================================================
+   pagination.js — self-contained, no inline onclick
+   Uses data-page attributes + event delegation.
+   Works regardless of variable names or page depth.
+   ============================================================ */
+'use strict';
 
 class Paginator {
-  constructor(options) {
-    this.container = document.getElementById(options.containerId);
-    this.paginationEl = document.getElementById(options.paginationId);
-    this.items = options.items || [];
-    this.perPage = options.perPage || 10;
-    this.currentPage = 1;
-    this.renderFn = options.renderFn;
-    this.onPageChange = options.onPageChange;
+  constructor({ containerId, paginationId, items = [], perPage = 10, renderFn }) {
+    this.containerId  = containerId;
+    this.paginationId = paginationId;
+    this.items        = items;
+    this.perPage      = perPage;
+    this.renderFn     = renderFn;
+    this.page         = 1;
+    this._bindEvents();
   }
 
-  get totalPages() {
-    return Math.ceil(this.items.length / this.perPage);
-  }
-
-  get currentItems() {
-    const start = (this.currentPage - 1) * this.perPage;
-    return this.items.slice(start, start + this.perPage);
-  }
-
-  setItems(items) {
-    this.items = items;
-    this.currentPage = 1;
-    this.render();
-  }
-
-  goTo(page) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    this.render();
-    if (this.container) {
-      this.container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  _bindEvents() {
+    const handler = (e) => {
+      const btn = e.target.closest('[data-paginator-id]');
+      if (!btn) return;
+      if (btn.dataset.paginatorId !== this.paginationId) return;
+      const target = parseInt(btn.dataset.page, 10);
+      if (isNaN(target) || target < 1) return;
+      const total = Math.ceil(this.items.length / this.perPage);
+      if (target > total) return;
+      this.page = target;
+      this.render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => document.addEventListener('click', handler));
+    } else {
+      document.addEventListener('click', handler);
     }
-    if (this.onPageChange) this.onPageChange(page);
+  }
+
+  setItems(items) { this.items = items; this.page = 1; this.render(); }
+
+  goTo(p) {
+    const total = Math.ceil(this.items.length / this.perPage);
+    this.page = Math.max(1, Math.min(p, total));
+    this.render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   render() {
-    if (this.container && this.renderFn) {
-      this.container.innerHTML = this.currentItems.map(this.renderFn).join('');
-    }
-    this.renderPagination();
+    const el = document.getElementById(this.containerId);
+    if (!el) return;
+    const start = (this.page - 1) * this.perPage;
+    const slice = this.items.slice(start, start + this.perPage);
+    el.innerHTML = slice.length
+      ? slice.map(this.renderFn).join('')
+      : '<div class="empty-state"><div class="empty-state-icon">📭</div><h3>No stories found</h3><p style="color:var(--text-m);font-size:.9rem">Try a different filter.</p></div>';
+    this._renderPagination();
   }
 
-  renderPagination() {
-    if (!this.paginationEl || this.totalPages <= 1) {
-      if (this.paginationEl) this.paginationEl.innerHTML = '';
-      return;
+  _renderPagination() {
+    const el = document.getElementById(this.paginationId);
+    if (!el) return;
+    const total = Math.ceil(this.items.length / this.perPage);
+    if (total <= 1) { el.innerHTML = ''; return; }
+
+    const pid = this.paginationId;
+    const cur = this.page;
+
+    const show = new Set([1, total]);
+    for (let i = Math.max(1, cur - 1); i <= Math.min(total, cur + 1); i++) show.add(i);
+    const sorted = [...show].sort((a, b) => a - b);
+
+    let html = '<div class="pagination-inner">';
+    html += `<button class="page-btn" data-paginator-id="${pid}" data-page="${cur - 1}" ${cur === 1 ? 'disabled' : ''} aria-label="Previous">‹</button>`;
+
+    let prev = 0;
+    for (const n of sorted) {
+      if (n - prev > 1) html += '<span class="page-ellipsis">…</span>';
+      html += `<button class="page-btn${n === cur ? ' active' : ''}" data-paginator-id="${pid}" data-page="${n}" ${n === cur ? 'aria-current="page"' : ''}>${n}</button>`;
+      prev = n;
     }
-    const p = this.currentPage;
-    const total = this.totalPages;
-    let pages = [];
-    const range = (from, to) => {
-      for (let i = from; i <= to; i++) pages.push(i);
-    };
-    if (total <= 7) {
-      range(1, total);
-    } else {
-      pages.push(1);
-      if (p > 3) pages.push('...');
-      const start = Math.max(2, p - 1);
-      const end = Math.min(total - 1, p + 1);
-      range(start, end);
-      if (p < total - 2) pages.push('...');
-      pages.push(total);
-    }
-    this.paginationEl.innerHTML = `
-      <button class="page-btn" ${p === 1 ? 'disabled' : ''} data-page="${p - 1}">
-        ← Prev
-      </button>
-      ${pages.map(pg => pg === '...'
-        ? `<span class="page-btn" style="cursor:default">…</span>`
-        : `<button class="page-btn ${pg === p ? 'active' : ''}" data-page="${pg}">${pg}</button>`
-      ).join('')}
-      <button class="page-btn" ${p === total ? 'disabled' : ''} data-page="${p + 1}">
-        Next →
-      </button>`;
-    this.paginationEl.querySelectorAll('[data-page]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const pg = parseInt(btn.dataset.page);
-        if (!isNaN(pg)) this.goTo(pg);
-      });
-    });
+
+    html += `<button class="page-btn" data-paginator-id="${pid}" data-page="${cur + 1}" ${cur === total ? 'disabled' : ''} aria-label="Next">›</button>`;
+    html += '</div>';
+    el.innerHTML = html;
   }
 }
 

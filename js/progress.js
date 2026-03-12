@@ -1,13 +1,9 @@
-/* ===== PROGRESS.JS - Reading progress bar ===== */
-document.addEventListener('DOMContentLoaded', () => {
+/* progress.js — reading progress bar */
+(function(){
   const bar = document.getElementById('reading-progress');
   if (!bar) return;
-  const update = () => {
-    const el = document.documentElement;
-    const scrolled = el.scrollTop || document.body.scrollTop;
-    const total = el.scrollHeight - el.clientHeight;
-    bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
-  };
-  window.addEventListener('scroll', update, { passive: true });
-  update();
-});
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }, { passive: true });
+})();

@@ -1,41 +1,23 @@
-/* ===== BOOKMARKS.JS ===== */
-
-function getBookmarks() {
-  try { return JSON.parse(localStorage.getItem('bookmarks') || '[]'); } catch { return []; }
-}
-
-function saveBookmarks(bm) {
-  localStorage.setItem('bookmarks', JSON.stringify(bm));
-}
-
-function isBookmarked(id) {
-  return getBookmarks().includes(String(id));
-}
-
-function toggleBookmark(id) {
-  const bm = getBookmarks();
-  const sid = String(id);
-  const idx = bm.indexOf(sid);
-  if (idx === -1) bm.push(sid);
-  else bm.splice(idx, 1);
-  saveBookmarks(bm);
-  return idx === -1;
-}
-
-function initBookmarkButton(storyId) {
-  const btn = document.getElementById('bookmark-btn');
-  if (!btn) return;
-  const update = () => {
-    const marked = isBookmarked(storyId);
-    btn.classList.toggle('bookmarked', marked);
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="${marked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-    ${marked ? 'Bookmarked' : 'Bookmark'}`;
-  };
-  update();
-  btn.addEventListener('click', () => {
-    toggleBookmark(storyId);
-    update();
+/* bookmarks.js */
+window.Bookmarks = {
+  getAll() { try { return JSON.parse(localStorage.getItem('bookmarks')||'[]'); } catch{ return []; } },
+  isBookmarked(id) { return this.getAll().includes(id); },
+  toggle(id) {
+    const all = this.getAll();
+    const idx = all.indexOf(id);
+    if (idx === -1) all.push(id); else all.splice(idx,1);
+    localStorage.setItem('bookmarks', JSON.stringify(all));
+    return idx === -1;
+  }
+};
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-bookmark-btn]').forEach(btn => {
+    const id = parseInt(btn.dataset.bookmarkBtn);
+    if (window.Bookmarks.isBookmarked(id)) btn.classList.add('bookmarked');
+    btn.addEventListener('click', () => {
+      const added = window.Bookmarks.toggle(id);
+      btn.classList.toggle('bookmarked', added);
+      btn.querySelector('.bm-label') && (btn.querySelector('.bm-label').textContent = added ? 'Bookmarked' : 'Bookmark');
+    });
   });
-}
-
-window.Bookmarks = { getBookmarks, isBookmarked, toggleBookmark, initBookmarkButton };
+});

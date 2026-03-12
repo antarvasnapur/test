@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | Antarvasnapur</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/darkmode.js"></script>
+<style>
+.error-page{min-height:calc(100vh - var(--hh) - 120px);display:flex;align-items:center;justify-content:center;padding:40px 16px;text-align:center}
+.error-inner{max-width:540px;margin:0 auto}
+.error-book{font-size:clamp(3rem,10vw,5rem);display:block;margin-bottom:12px;animation:floatBook 4s ease-in-out infinite}
+@keyframes floatBook{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.error-code{font-family:var(--fd);font-size:clamp(6rem,22vw,10rem);font-weight:700;line-height:1;margin-bottom:4px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:pulse404 3s ease-in-out infinite}
+@keyframes pulse404{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.error-dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px}
+.error-dot{width:8px;height:8px;border-radius:50%;background:var(--border);animation:dotPop 1.4s ease-in-out infinite}
+.error-dot:nth-child(2){animation-delay:.2s;background:var(--primary);opacity:.5}
+.error-dot:nth-child(3){animation-delay:.4s}
+@keyframes dotPop{0%,80%,100%{transform:scale(1)}40%{transform:scale(1.5);background:var(--primary)}}
+.error-title{font-family:var(--fd);font-size:clamp(1.3rem,4vw,1.9rem);font-weight:700;color:var(--text);margin-bottom:8px}
+.error-hindi{font-family:var(--fh);font-size:clamp(1rem,3vw,1.2rem);color:var(--primary);margin-bottom:12px;font-weight:500}
+.error-desc{font-size:clamp(.88rem,2.5vw,.97rem);color:var(--text-m);line-height:1.7;margin-bottom:28px;font-family:var(--fh)}
+.error-search{display:flex;margin-bottom:20px;background:var(--bg-card);border:2px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:var(--sh);transition:border-color var(--ease)}
+.error-search:focus-within{border-color:var(--primary)}
+.error-search input{flex:1;min-width:0;padding:12px 18px;border:none;outline:none;font-size:.94rem;font-family:var(--fh);background:transparent;color:var(--text)}
+.error-search button{padding:12px 20px;background:var(--primary);color:#fff;border:none;font-size:.86rem;font-weight:600;flex-shrink:0;transition:background var(--ease)}
+.error-search button:hover{background:var(--primary-d)}
+.error-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.error-links{background:var(--bg-card);border:1px solid var(--border-l);border-radius:var(--r-lg);padding:20px;text-align:left}
+.error-links-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-m);margin-bottom:12px}
+.error-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(min-width:480px){.error-links-grid{grid-template-columns:repeat(3,1fr)}}
+.error-link-item{display:flex;align-items:center;gap:7px;padding:9px 11px;border-radius:var(--r);background:var(--bg-sec);color:var(--text-m);font-size:.82rem;transition:all var(--ease);font-weight:500}
+.error-link-item:hover{background:var(--primary);color:#fff}
+.error-redirect{font-size:.78rem;color:var(--text-l);margin-top:16px}
+.error-redirect strong{color:var(--primary)}
+</style>
+</head>
+<body>
+<div id="reading-progress"></div>
+<div class="notice-bar">⚠️ Adult content (18+). By continuing you confirm you are 18+.</div>
+
+<main>
+  <div class="error-page">
+    <div class="error-inner">
+      <span class="error-book" role="img" aria-label="Book">📖</span>
+      <div class="error-code" aria-label="Error 404">404</div>
+      <div class="error-dots" aria-hidden="true">
+        <div class="error-dot"></div>
+        <div class="error-dot"></div>
+        <div class="error-dot"></div>
+      </div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-hindi">यह पृष्ठ नहीं मिला</p>
+      <p class="error-desc">The story or page you are looking for has been moved, deleted, or never existed. Don't worry — hundreds of great stories are waiting!</p>
+      <form class="error-search" id="error-search-form" role="search">
+        <input type="search" id="error-search-input" placeholder="Search for a story..." aria-label="Search">
+        <button type="submit">Search</button>
+      </form>
+      <div class="error-actions">
+        <a href="/" class="btn-primary">🏠 Go to Homepage</a>
+        <button class="btn-secondary" id="random-story-btn" type="button">🎲 Random Story</button>
+      </div>
+      <div class="error-links">
+        <p class="error-links-title">Popular Sections</p>
+        <div class="error-links-grid">
+          <a href="/all-stories.html" class="error-link-item"><span>📚</span> All Stories</a>
+          <a href="/category.html?c=Romantic+Stories" class="error-link-item"><span>💕</span> Romantic</a>
+          <a href="/category.html?c=Desi+Stories" class="error-link-item"><span>🏡</span> Desi</a>
+          <a href="/category.html?c=Bhabhi+Stories" class="error-link-item"><span>💝</span> Bhabhi</a>
+          <a href="/category.html?c=Village+Stories" class="error-link-item"><span>🌾</span> Village</a>
+          <a href="/category.html?c=College+Stories" class="error-link-item"><span>🎓</span> College</a>
+        </div>
+      </div>
+      <p class="error-redirect" id="redirect-msg">Redirecting to homepage in <strong id="countdown">10</strong> seconds…</p>
+    </div>
+  </div>
+
+  <div class="container" style="padding-bottom:60px">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Trending Stories</h2>
+      <a href="/all-stories.html" class="view-all">View All →</a>
+    </div>
+    <div id="trending-404" class="stories-grid"></div>
+  </div>
+</main>
+
+<script src="/js/layout.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/analytics.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const stories = await window.SITE.loadStories();
+    const grid = document.getElementById('trending-404');
+    if (grid) grid.innerHTML = window.SITE.getTrending(stories, 6).map(s => window.SITE.buildStoryCard(s)).join('');
+    document.getElementById('random-story-btn')?.addEventListener('click', () => {
+      const s = window.SITE.getRandomStory(stories);
+      if (s) window.location.href = '/stories/' + s.slug + '.html';
+    });
+  } catch(e) {}
+
+  document.getElementById('error-search-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const q = document.getElementById('error-search-input')?.value.trim();
+    if (q) window.location.href = '/search.html?q=' + encodeURIComponent(q);
+  });
+
+  // Countdown
+  const countEl = document.getElementById('countdown');
+  const msgEl = document.getElementById('redirect-msg');
+  let s = 10;
+  const timer = setInterval(() => {
+    s--;
+    if (countEl) countEl.textContent = s;
+    if (s <= 0) { clearInterval(timer); window.location.href = '/'; }
+  }, 1000);
+  const cancel = () => { clearInterval(timer); if (msgEl) msgEl.style.display = 'none'; };
+  document.getElementById('error-search-input')?.addEventListener('focus', cancel);
+  document.getElementById('random-story-btn')?.addEventListener('click', cancel);
+  document.querySelectorAll('.error-link-item').forEach(el => el.addEventListener('click', cancel));
+});
+</script>
+</body>
+</html>

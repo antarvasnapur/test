@@ -1,26 +1,20 @@
-/* ===== TRENDING.JS ===== */
-
-async function initTrendingSection() {
-  const container = document.getElementById('trending-stories');
-  if (!container) return;
+/* trending.js */
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof window.SITE === 'undefined') return;
   const stories = await window.SITE.loadStories();
-  const base = window.SITE.getBasePath();
-  const trending = window.SITE.getTrending(stories, 6);
-  container.innerHTML = `<div class="stories-grid">${trending.map(s => window.SITE.buildStoryCard(s, base)).join('')}</div>`;
-}
 
-async function initMostViewed() {
-  const container = document.getElementById('most-viewed');
-  if (!container) return;
-  const stories = await window.SITE.loadStories();
-  const base = window.SITE.getBasePath();
-  const viewed = [...stories].sort((a, b) => b.views - a.views).slice(0, 6);
-  container.innerHTML = `<div class="stories-grid">${viewed.map(s => window.SITE.buildStoryCard(s, base)).join('')}</div>`;
-}
+  const trendingEl = document.getElementById('trending-stories');
+  if (trendingEl) {
+    const t = window.SITE.getTrending(stories, 6);
+    trendingEl.innerHTML = `<div class="stories-grid">${t.map(s=>window.SITE.buildStoryCard(s)).join('')}</div>`;
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initTrendingSection();
-  initMostViewed();
+  const mostViewedEl = document.getElementById('most-viewed');
+  if (mostViewedEl) {
+    const mv = [...stories].sort((a,b)=>b.views-a.views).slice(0,6);
+    mostViewedEl.innerHTML = `<div class="stories-grid">${mv.map(s=>window.SITE.buildStoryCard(s)).join('')}</div>`;
+  }
+
   window.SITE.renderTrendingWidget('sidebar-trending');
   window.SITE.renderTagsWidget('sidebar-tags');
 });
