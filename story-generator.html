@@ -97,9 +97,6 @@ textarea.fi{resize:vertical;min-height:80px;line-height:1.75}
 textarea.fi.tall{min-height:260px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-/* Slug bar */
-.slug-bar{margin-top:7px;display:flex;align-items:center;gap:7px;padding:6px 10px;background:var(--bg);border:1px solid var(--line);border-radius:5px;font-family:var(--mono);font-size:.67rem;color:var(--t3);overflow:hidden}
-.slug-bar .sv{color:var(--al);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* Chip input */
 .chip-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:7px 9px;background:var(--bg3);border:1px solid var(--line2);border-radius:7px;cursor:text;min-height:44px;align-items:center;transition:border-color .18s,box-shadow .18s}
@@ -190,6 +187,18 @@ textarea.fi.tall{min-height:260px}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.ok{background:#0f2e1a;border:1px solid var(--g);color:#6ee09a}
 .toast.err{background:#2e0f0f;border:1px solid var(--r);color:#f08080}
+
+/* Slug editable row */
+.slug-row{display:flex;align-items:center;gap:0;border:1px solid var(--line2);border-radius:7px;overflow:hidden;background:var(--bg3);transition:border-color .18s,box-shadow .18s}
+.slug-row:focus-within{border-color:var(--r);box-shadow:0 0 0 3px rgba(181,40,30,.14)}
+.slug-prefix,.slug-suffix{padding:0 10px;background:var(--bg4);color:var(--t3);font-family:var(--mono);font-size:.72rem;white-space:nowrap;align-self:stretch;display:flex;align-items:center;border-right:1px solid var(--line2)}
+.slug-suffix{border-right:none;border-left:1px solid var(--line2)}
+.slug-fi{flex:1;border:none;border-radius:0;background:transparent;padding:10px 8px;font-family:var(--mono);font-size:.82rem;color:var(--al);letter-spacing:.01em}
+.slug-fi:focus{box-shadow:none;border-color:transparent}
+.slug-reset{background:var(--bg4);border:none;border-left:1px solid var(--line2);color:var(--t3);font-size:.72rem;padding:0 12px;cursor:pointer;transition:all .15s;align-self:stretch;font-family:var(--body);white-space:nowrap}
+.slug-reset:hover{background:rgba(181,40,30,.15);color:var(--rl)}
+.slug-url{margin-top:6px;font-family:var(--mono);font-size:.66rem;color:var(--t3);padding:5px 9px;background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slug-url span{color:var(--al)}
 </style>
 </head>
 <body>
@@ -236,7 +245,18 @@ textarea.fi.tall{min-height:260px}
     <div class="fs">
       <label class="fl">Story Title <span class="req">*</span><span class="hint">in Hindi (Devanagari)</span></label>
       <input id="f-title" class="fi fi-deva" type="text" placeholder="जैसे: देसी भाभी की प्रेम कहानी" autocomplete="off" oninput="onTitle()">
-      <div class="slug-bar">🔗&nbsp;<span class="sv" id="slug-val">slug will appear here…</span></div>
+    </div>
+
+    <!-- Slug — editable, auto-filled from title -->
+    <div class="fs">
+      <label class="fl">URL Slug <span class="req">*</span><span class="hint">auto-filled · edit if needed · only a-z 0-9 hyphens</span></label>
+      <div class="slug-row">
+        <span class="slug-prefix">stories/</span>
+        <input id="f-slug" class="fi slug-fi" type="text" placeholder="desi-bhabhi-ki-prem-kahani" autocomplete="off" oninput="onSlugEdit()" spellcheck="false">
+        <span class="slug-suffix">.html</span>
+        <button class="slug-reset" onclick="resetSlug()" title="Re-generate from title">↺</button>
+      </div>
+      <div class="slug-url" id="slug-url">https://www.antarvasnapur.in/stories/<span id="slug-url-val">…</span>.html</div>
     </div>
 
     <!-- Story ID -->
@@ -392,9 +412,35 @@ function slugify(t){
     ||'story-'+Date.now();
 }
 function onTitle(){
-  const v=document.getElementById('f-title').value;
-  genSlug=slugify(v);
-  document.getElementById('slug-val').textContent=genSlug?'stories/'+genSlug+'.html':'slug will appear here…';
+  // Only auto-update slug if user hasn't manually edited it
+  const slugEl=document.getElementById('f-slug');
+  if(!slugEl.dataset.manual){
+    const v=document.getElementById('f-title').value;
+    const s=slugify(v);
+    slugEl.value=s;
+    updateSlugUI(s);
+  }
+}
+function onSlugEdit(){
+  const v=document.getElementById('f-slug').value;
+  // Mark as manually edited so title changes don't overwrite
+  document.getElementById('f-slug').dataset.manual=v?'1':'';
+  updateSlugUI(v);
+}
+function resetSlug(){
+  const el=document.getElementById('f-slug');
+  delete el.dataset.manual;
+  const title=document.getElementById('f-title').value;
+  const s=slugify(title);
+  el.value=s;
+  updateSlugUI(s);
+  el.focus();
+}
+function updateSlugUI(s){
+  // Clean slug: only allow a-z 0-9 hyphens
+  const clean=s.toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-+|-+$/g,'');
+  document.getElementById('slug-url-val').textContent=clean||'…';
+  genSlug=clean;
 }
 
 /* ─── CHIP INPUT ENGINE ─── */
@@ -474,7 +520,10 @@ function generate(){
   if(!body)errs.push('Story Text is required');
   if(errs.length){toast('⚠ '+errs[0],'err');return;}
 
-  const slug=slugify(title);
+  // Use manually entered slug (or auto-generated if not edited)
+  const rawSlug=document.getElementById('f-slug').value.trim();
+  const slug=rawSlug.toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-+|-+$/g,'')||slugify(title);
+  document.getElementById('f-slug').value=slug; // normalise display
   const words=body.split(/\s+/).filter(Boolean).length;
   const mins=Math.max(1,Math.ceil(words/200));
   const id=parseInt(sid);
